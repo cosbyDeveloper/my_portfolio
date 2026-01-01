@@ -1,0 +1,157 @@
+@import 'tailwindcss';
+
+/* -------------------------------------------------------------------------- */
+/*                              THEME TOKENS (v4)                              */
+/* -------------------------------------------------------------------------- */
+
+@theme {
+	--color-background: hsl(var(--background));
+	--color-foreground: hsl(var(--foreground));
+
+	--color-card: hsl(var(--card));
+	--color-card-foreground: hsl(var(--card-foreground));
+
+	--color-primary: hsl(var(--primary));
+	--color-primary-foreground: hsl(var(--primary-foreground));
+
+	--color-muted: hsl(var(--muted));
+	--color-muted-foreground: hsl(var(--muted-foreground));
+
+	--color-border: hsl(var(--border));
+}
+
+/* -------------------------------------------------------------------------- */
+/*                              COLOR VALUES                                  */
+/* -------------------------------------------------------------------------- */
+
+/* Light mode */
+:root {
+	--background: 0 0% 100%;
+	--foreground: 222 47% 11%;
+
+	--card: 0 0% 100%;
+	--card-foreground: 222 47% 11%;
+
+	--primary: 217 100% 63%;
+	--primary-foreground: 0 0% 100%;
+
+	--muted: 210 40% 96%;
+	--muted-foreground: 215 20% 35%;
+
+	--border-subtle: 217 35% 88%;
+	--border-default: 217 45% 78%;
+	--border-strong: 217 65% 65%;
+}
+
+/* Dark mode */
+.dark {
+	--background: 214 50% 11%;
+	--foreground: 210 40% 98%;
+
+	--card: 214 45% 13%;
+	--card-foreground: 210 40% 98%;
+
+	--primary: 217 100% 63%;
+	--primary-foreground: 214 50% 11%;
+
+	--muted: 215 28% 17%;
+	--muted-foreground: 215 20% 65%;
+
+	--border-subtle: 217 30% 32%;
+	--border-default: 217 40% 42%;
+	--border-strong: 217 65% 60%;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                              BASE STYLES                                    */
+/* -------------------------------------------------------------------------- */
+
+body {
+	background-color: hsl(var(--background));
+	color: hsl(var(--foreground));
+	font-feature-settings: 'rlig' 1, 'calt' 1;
+	-webkit-font-smoothing: antialiased;
+}
+
+/* Ensures Tailwind `border-border` works consistently */
+* {
+	border-color: hsl(var(--border));
+}
+
+/* -------------------------------------------------------------------------- */
+/*                        AMBIENT GLASS BACKGROUND                              */
+/* -------------------------------------------------------------------------- */
+
+body::before {
+	content: '';
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+
+	background: radial-gradient(
+			600px circle at 15% 10%,
+			hsl(var(--primary) / 0.12),
+			transparent 40%
+		),
+		radial-gradient(
+			500px circle at 85% 20%,
+			hsl(var(--primary) / 0.08),
+			transparent 45%
+		),
+		radial-gradient(
+			700px circle at 50% 90%,
+			hsl(var(--primary) / 0.06),
+			transparent 50%
+		);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                              COMPONENT UTILITIES                            */
+/* -------------------------------------------------------------------------- */
+
+@layer components {
+	.glass {
+		background-color: hsl(var(--card) / 0.7);
+		backdrop-filter: blur(20px);
+		border: 1px solid hsl(var(--border));
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+	}
+
+	.glass-muted {
+		background-color: hsl(var(--muted) / 0.6);
+		backdrop-filter: blur(16px);
+		border: 1px solid hsl(var(--border));
+	}
+}
+
+/* -------------------------------------------------------------------------- */
+/*                              UTILITIES                                      */
+/* -------------------------------------------------------------------------- */
+
+@layer utilities {
+	.border-default {
+		border-color: hsl(var(--border-default)) !important;
+	}
+
+	.border-subtle {
+		border-color: hsl(var(--border-subtle)) !important;
+	}
+
+	.border-strong {
+		border-color: hsl(var(--border-strong)) !important;
+	}
+
+	::-webkit-scrollbar {
+		width: 8px;
+	}
+
+	::-webkit-scrollbar-thumb {
+		background: hsl(var(--border));
+		border-radius: 999px;
+	}
+
+	::-webkit-scrollbar-thumb:hover {
+		background: hsl(var(--primary) / 0.6);
+	}
+}
