@@ -9,11 +9,7 @@ export const metadata: Metadata = {
 		'Personal portfolio of Godfred Awusi – software engineer, founder, and problem solver.',
 };
 
-export default function RootLayout({
-	children,
-}: {
-	children: React.ReactNode;
-}) {
+const RootLayout = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<html lang='en' suppressHydrationWarning>
 			<body>
@@ -23,4 +19,6 @@ export default function RootLayout({
 			</body>
 		</html>
 	);
-}
+};
+
+export default RootLayout;

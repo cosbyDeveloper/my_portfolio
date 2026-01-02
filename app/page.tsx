@@ -18,12 +18,26 @@
 // 	);
 // }
 
-'use client';
+import ExperienceEducation from '@/components/home/ExperienceEducation';
+import FAQ from '@/components/home/FAQ';
+import FeaturedBlogs from '@/components/home/FeaturedBlogs';
+import FeaturedProjects from '@/components/home/FeaturedProjects';
+import GetInTouch from '@/components/home/GetInTouch';
+import Hero from '@/components/home/Hero';
+import Skills from '@/components/home/Skills';
 
-export default function HomePage() {
+const HomePage = () => {
 	return (
-		<section className='p-8 space-y-4'>
-			<h1 className='text-3xl font-bold'>HomePage</h1>
-		</section>
+		<>
+			<Hero />
+			<Skills />
+			<ExperienceEducation />
+			<FeaturedProjects />
+			<FeaturedBlogs />
+			<FAQ />
+			<GetInTouch />
+		</>
 	);
-}
+};
+
+export default HomePage;

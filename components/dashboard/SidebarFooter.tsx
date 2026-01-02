@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { FaGithub, FaLinkedin, FaTwitter, FaMoon, FaSun } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaMoon, FaSun } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
 import { useTheme } from 'next-themes';
 
 interface SidebarFooterProps {
@@ -18,9 +19,7 @@ const SOCIAL_LINKS = {
 	// dribbble: 'https://dribbble.com/yourusername',
 };
 
-export default function SidebarFooter({
-	collapsed = false,
-}: SidebarFooterProps) {
+const SidebarFooter = ({ collapsed = false }: SidebarFooterProps) => {
 	const { theme, setTheme } = useTheme();
 
 	return (
@@ -63,7 +62,7 @@ export default function SidebarFooter({
 					rel='noopener noreferrer'
 					className='hover:text-primary transition-all duration-300 hover:scale-110 hover:pl-1'
 					aria-label='Twitter Profile'>
-					<FaTwitter className='text-2xl' />
+					<FaXTwitter className='text-2xl' />
 				</Link>
 			</div>
 
@@ -91,4 +90,6 @@ export default function SidebarFooter({
 			</button>
 		</div>
 	);
-}
+};
+
+export default SidebarFooter;

@@ -1,13 +1,24 @@
+// components/layout/AppShell.tsx
 import Sidebar from '@/components/dashboard/Sidebar';
+import ScrollHandler from './ScrollHandler';
+import Footer from '@/components/layout/Footer';
 
-export default function AppShell({ children }: { children: React.ReactNode }) {
+const AppShell = ({ children }: { children: React.ReactNode }) => {
 	return (
-		<div className='min-h-screen flex'>
-			{/* Sidebar */}
-			<Sidebar />
+		<>
+			<ScrollHandler />
+			<div className='min-h-screen flex'>
+				{/* Sidebar */}
+				<Sidebar />
 
-			{/* Main Content */}
-			<main className='flex-1'>{children}</main>
-		</div>
+				{/* Main Content */}
+				<main className='flex-1'>
+					{children}
+					<Footer />
+				</main>
+			</div>
+		</>
 	);
-}
+};
+
+export default AppShell;
