@@ -7,8 +7,8 @@ export const resumeData = {
 		location: 'Accra, Ghana',
 		phone: '+233 544 588 204',
 		email: 'awusigodfred225@gmail.com',
-		resumePdf: '/resume.pdf',
-		resumeFileName: 'Godfred_Awusi_Resume.pdf',
+		resumePdf: '/Godfred Awusi_Resume.pdf',
+		resumeFileName: 'Godfred Awusi_Resume.pdf',
 	},
 
 	links: {
