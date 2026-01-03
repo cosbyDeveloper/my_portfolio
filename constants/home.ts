@@ -4,7 +4,7 @@ export const homeContent = {
 	hero: {
 		name: 'Godfred Awusi',
 		role: 'Software Engineer',
-		greeting: "Hello, I'm",
+		greeting: 'Hello, I&apos;m',
 		imageUrl: '/images/profile.jpg',
 		tagline:
 			'I build scalable backend systems, modern web applications, and intelligent, data-driven software solutions, with a growing focus on AI/ML-powered systems and real-world impact.',
