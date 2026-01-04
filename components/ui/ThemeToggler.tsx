@@ -14,7 +14,7 @@ const ThemeToggler = ({
 		<button
 			onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
 			className={`${className} flex transition-all hover:pl-1 duration-300 hover:text-primary ${
-				fullWidth ? 'w-full mt-10 text-lg' : 'w-auto mt-7 text-2xl'
+				fullWidth ? 'w-full mt-10 text-lg' : 'w-auto mt-6.5 text-2xl'
 			} ${collapsed ? 'justify-center' : 'justify-start'}`}
 			aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}>
 			<div
