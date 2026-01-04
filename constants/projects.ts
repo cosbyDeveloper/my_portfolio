@@ -349,84 +349,84 @@ export const projects: Project[] = [
 		],
 	},
 
-	{
-		slug: 'trading-system-research',
-		title: 'Algorithmic Trading System (Research Phase)',
-		category: {
-			key: 'personal',
-			label: 'Personal / Research',
-		},
-		summary:
-			'Research and prototyping toward an automated, data-driven trading system.',
-		description:
-			'An ongoing personal research project exploring market data, trading logic, and system design for building automated trading tools, with long-term plans to integrate machine learning for decision support. The project focuses on understanding financial markets while developing robust technical infrastructure for data processing and analysis.',
-		stack: [
-			'Python',
-			'Pandas',
-			'NumPy',
-			'FastAPI',
-			'PostgreSQL',
-			'Docker',
-			'AWS',
-		],
-		coverImage: '/images/products/trading-system/cover.png',
-		images: [
-			'/images/products/trading-system/analysis.png',
-			'/images/products/trading-system/data-pipeline.png',
-			'/images/products/trading-system/backtesting.png',
-			'/images/products/trading-system/dashboard.png',
-		],
-		demoUrl: 'https://tradingsystem.vercel.app',
-		featured: false,
-		role: 'Researcher & Developer',
-		timeline: 'Ongoing since 2023',
+	// {
+	// 	slug: 'trading-system-research',
+	// 	title: 'Algorithmic Trading System (Research Phase)',
+	// 	category: {
+	// 		key: 'personal',
+	// 		label: 'Personal / Research',
+	// 	},
+	// 	summary:
+	// 		'Research and prototyping toward an automated, data-driven trading system.',
+	// 	description:
+	// 		'An ongoing personal research project exploring market data, trading logic, and system design for building automated trading tools, with long-term plans to integrate machine learning for decision support. The project focuses on understanding financial markets while developing robust technical infrastructure for data processing and analysis.',
+	// 	stack: [
+	// 		'Python',
+	// 		'Pandas',
+	// 		'NumPy',
+	// 		'FastAPI',
+	// 		'PostgreSQL',
+	// 		'Docker',
+	// 		'AWS',
+	// 	],
+	// 	coverImage: '/images/products/trading-system/cover.png',
+	// 	images: [
+	// 		'/images/products/trading-system/analysis.png',
+	// 		'/images/products/trading-system/data-pipeline.png',
+	// 		'/images/products/trading-system/backtesting.png',
+	// 		'/images/products/trading-system/dashboard.png',
+	// 	],
+	// 	demoUrl: 'https://tradingsystem.vercel.app',
+	// 	featured: false,
+	// 	role: 'Researcher & Developer',
+	// 	timeline: 'Ongoing since 2023',
 
-		challenges: [
-			'Processing and analyzing large volumes of financial data',
-			'Developing reliable backtesting frameworks',
-			'Implementing risk management strategies',
-			'Ensuring system security and data integrity',
-		],
+	// 	challenges: [
+	// 		'Processing and analyzing large volumes of financial data',
+	// 		'Developing reliable backtesting frameworks',
+	// 		'Implementing risk management strategies',
+	// 		'Ensuring system security and data integrity',
+	// 	],
 
-		solutions: [
-			'Used Pandas and NumPy for efficient data manipulation',
-			'Created modular backtesting engine with customizable strategies',
-			'Implemented position sizing and stop-loss algorithms',
-			'Developed secure API architecture with rate limiting',
-		],
+	// 	solutions: [
+	// 		'Used Pandas and NumPy for efficient data manipulation',
+	// 		'Created modular backtesting engine with customizable strategies',
+	// 		'Implemented position sizing and stop-loss algorithms',
+	// 		'Developed secure API architecture with rate limiting',
+	// 	],
 
-		lessons: [
-			'Importance of data quality in quantitative analysis',
-			'Value of extensive backtesting before live deployment',
-			'Benefits of modular system design for strategy iteration',
-			'Need for comprehensive risk management from the start',
-		],
+	// 	lessons: [
+	// 		'Importance of data quality in quantitative analysis',
+	// 		'Value of extensive backtesting before live deployment',
+	// 		'Benefits of modular system design for strategy iteration',
+	// 		'Need for comprehensive risk management from the start',
+	// 	],
 
-		keyFeatures: [
-			'Real-time market data ingestion and processing',
-			'Technical indicator library with 50+ indicators',
-			'Backtesting engine with customizable parameters',
-			'Risk management module with position sizing',
-			'Performance analytics and reporting',
-			'API for strategy integration',
-		],
+	// 	keyFeatures: [
+	// 		'Real-time market data ingestion and processing',
+	// 		'Technical indicator library with 50+ indicators',
+	// 		'Backtesting engine with customizable parameters',
+	// 		'Risk management module with position sizing',
+	// 		'Performance analytics and reporting',
+	// 		'API for strategy integration',
+	// 	],
 
-		technicalDetails: [
-			{
-				title: 'Data Infrastructure',
-				description:
-					'Market data pipeline with cleaning, normalization, and storage. PostgreSQL with TimescaleDB for time-series data. Redis for caching frequently accessed data.',
-			},
-			{
-				title: 'Analysis Engine',
-				description:
-					'Python-based analysis with Pandas and NumPy. Technical indicators implemented from first principles. Statistical analysis for strategy validation.',
-			},
-			{
-				title: 'System Architecture',
-				description:
-					'Microservices architecture with FastAPI. Containerized deployment with Docker. Cloud infrastructure on AWS with auto-scaling.',
-			},
-		],
-	},
+	// 	technicalDetails: [
+	// 		{
+	// 			title: 'Data Infrastructure',
+	// 			description:
+	// 				'Market data pipeline with cleaning, normalization, and storage. PostgreSQL with TimescaleDB for time-series data. Redis for caching frequently accessed data.',
+	// 		},
+	// 		{
+	// 			title: 'Analysis Engine',
+	// 			description:
+	// 				'Python-based analysis with Pandas and NumPy. Technical indicators implemented from first principles. Statistical analysis for strategy validation.',
+	// 		},
+	// 		{
+	// 			title: 'System Architecture',
+	// 			description:
+	// 				'Microservices architecture with FastAPI. Containerized deployment with Docker. Cloud infrastructure on AWS with auto-scaling.',
+	// 		},
+	// 	],
+	// },
 ];

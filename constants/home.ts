@@ -35,8 +35,8 @@ export const homeContent = {
 			{
 				title: 'Frontend',
 				items: [
-					'React',
-					'Next.js (App Router)',
+					'React (Router V7 & Tanstack)',
+					'Next.js (App Router & Server Actions)',
 					'Tailwind CSS',
 					'Bootstrap / React Bootstrap',
 					'Responsive UI Design',
@@ -44,17 +44,17 @@ export const homeContent = {
 			},
 			{
 				title: 'JavaScript Stack (Prior & On-Demand)',
-				items: ['MongoDB Atlas', 'Express.js', 'Node.js', 'Mongoose'],
+				items: ['Node.js', 'Express.js', 'MongoDB (Atlas)', 'Mongoose'],
 			},
 			{
 				title: 'Tools & Infrastructure',
 				items: [
 					'Git & GitHub',
-					'Linux',
-					'Docker (Foundational)',
 					'Vercel',
 					'Railway / Render',
 					'Cloud Deployment',
+					'Linux',
+					'Docker (Foundational)',
 				],
 			},
 		],
