@@ -1,27 +1,21 @@
 'use client';
 
 import Link from 'next/link';
-import { FaGithub, FaLinkedin, FaMoon, FaSun } from 'react-icons/fa';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
-import { useTheme } from 'next-themes';
-
+import ThemeToggler from '../ui/ThemeToggler';
 interface SidebarFooterProps {
 	collapsed?: boolean;
 }
 
 // Add your social media URLs here
 const SOCIAL_LINKS = {
-	linkedin: 'https://www.linkedin.com/in/yourusername',
-	github: 'https://github.com/yourusername',
-	twitter: 'https://twitter.com/yourusername',
-	// Add more if needed:
-	// instagram: 'https://instagram.com/yourusername',
-	// dribbble: 'https://dribbble.com/yourusername',
+	linkedin: 'https://www.linkedin.com/in/godfred-awusi-dev/',
+	github: 'https://github.com/cosbyDeveloper',
+	twitter: 'https://twitter.com/cosby_Tech',
 };
 
 const SidebarFooter = ({ collapsed = false }: SidebarFooterProps) => {
-	const { theme, setTheme } = useTheme();
-
 	return (
 		<div className='space-y-4'>
 			{/* Social Links Title */}
@@ -67,27 +61,7 @@ const SidebarFooter = ({ collapsed = false }: SidebarFooterProps) => {
 			</div>
 
 			{/* Theme Toggle */}
-			<button
-				onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-				className={`mt-10 flex transition-all hover:pl-1 duration-300 hover:text-primary text-lg w-full ${
-					collapsed ? 'justify-center' : 'justify-start'
-				}`}
-				aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}>
-				<div
-					className={`flex items-center transition-all duration-300 ${
-						collapsed ? 'justify-center w-full' : ''
-					}`}>
-					<div className='transition-all duration-300 hover:scale-110'>
-						{theme === 'dark' ? <FaSun /> : <FaMoon />}
-					</div>
-					<span
-						className={`transition-all duration-300 ml-2 ${
-							collapsed ? 'opacity-0 w-0 overflow-hidden' : 'opacity-100 w-auto'
-						}`}>
-						{theme === 'dark' ? 'Light mode' : 'Dark mode'}
-					</span>
-				</div>
-			</button>
+			<ThemeToggler collapsed={collapsed} showText={true} />
 		</div>
 	);
 };

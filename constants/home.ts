@@ -4,7 +4,7 @@ export const homeContent = {
 	hero: {
 		name: 'Godfred Awusi',
 		role: 'Software Engineer',
-		greeting: 'Hello, I&apos;m',
+		greeting: "Hello, I'm",
 		imageUrl: '/images/profile.jpg',
 		tagline:
 			'I build scalable backend systems, modern web applications, and intelligent, data-driven software solutions, with a growing focus on AI/ML-powered systems and real-world impact.',
@@ -25,11 +25,10 @@ export const homeContent = {
 			{
 				title: 'Backend & APIs',
 				items: [
-					'Python',
-					'Django',
+					'Python (Django)',
 					'REST APIs',
+					'PostgreSQL (Prisma)',
 					'JWT Authentication',
-					'PostgreSQL',
 					'System Design',
 				],
 			},
@@ -38,8 +37,8 @@ export const homeContent = {
 				items: [
 					'React',
 					'Next.js (App Router)',
-					'Bootstrap / React Bootstrap',
 					'Tailwind CSS',
+					'Bootstrap / React Bootstrap',
 					'Responsive UI Design',
 				],
 			},
@@ -138,7 +137,7 @@ export const homeContent = {
 		socials: [
 			{
 				label: 'LinkedIn',
-				href: 'https://linkedin.com/in/cosbydeveloper',
+				href: 'https://www.linkedin.com/in/godfred-awusi-dev/',
 				icon: 'FaLinkedin',
 			},
 			{
@@ -148,7 +147,7 @@ export const homeContent = {
 			},
 			{
 				label: 'Twitter',
-				href: 'https://twitter.com/cosbyDeveloper',
+				href: 'https://twitter.com/cosby_Tech',
 				icon: 'FaXTwitter',
 			},
 		],

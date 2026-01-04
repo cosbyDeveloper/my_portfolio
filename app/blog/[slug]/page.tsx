@@ -1,5 +1,21 @@
-const BlogDetails = () => {
-	return <div className='text-3xl'>Blog Details</div>;
-};
+// app/blog/[slug]/page.tsx (Server Component)
+import { notFound } from 'next/navigation';
+import { blogs } from '@/constants/blogs';
+import BlogDetailsContent from '@/components/blog/BlogDetailsContent';
 
-export default BlogDetails;
+interface PageProps {
+	params: Promise<{
+		slug: string;
+	}>;
+}
+
+export default async function BlogDetails({ params }: PageProps) {
+	const { slug } = await params;
+	const blog = blogs.find((b) => b.slug === slug);
+
+	if (!blog) {
+		notFound();
+	}
+
+	return <BlogDetailsContent blog={blog} />;
+}

@@ -2,9 +2,7 @@
 // app/faq/page.tsx
 import FAQ from '@/components/home/FAQ';
 import Link from 'next/link';
-import {
-	FaSearch,
-} from 'react-icons/fa';
+import { FaSearch } from 'react-icons/fa';
 import { useState, useMemo } from 'react';
 
 const pageFAQs = [
@@ -121,7 +119,7 @@ const FAQPage = () => {
 						: 'Browse through answers to questions I get asked most frequently'
 				}
 				faqs={filteredFAQs}
-        showBtn={false}
+				showBtn={false}
 			/>
 
 			{/* Additional Help Section */}
@@ -154,23 +152,23 @@ const FAQPage = () => {
 								</div>
 							</div>
 							<div className='space-y-4'>
-								<a
+								<Link
 									href='mailto:cosby.developer@gmail.com'
 									className='block w-full px-6 py-4 rounded-xl bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-all text-center'>
 									Send an Email
-								</a>
-								<a
+								</Link>
+								<Link
 									href='/contact'
 									className='block w-full px-6 py-4 rounded-xl border border-default hover:bg-muted/50 transition-all text-center'>
 									Use Contact Form
-								</a>
-								<a
-									href='https://linkedin.com/in/cosbydeveloper'
+								</Link>
+								<Link
+									href='https://www.linkedin.com/in/godfred-awusi-dev/'
 									target='_blank'
 									rel='noopener noreferrer'
 									className='block w-full px-6 py-4 rounded-xl border border-default hover:bg-muted/50 transition-all text-center'>
 									Message on LinkedIn
-								</a>
+								</Link>
 							</div>
 						</div>
 					</div>
@@ -184,7 +182,7 @@ const FAQPage = () => {
 						Related Pages You Might Like
 					</h2>
 					<div className='grid gap-6 md:grid-cols-3'>
-						<a
+						<Link
 							href='/about'
 							className='p-6 rounded-2xl border border-default hover:border-primary/50 hover:bg-primary/5 transition-all group'>
 							<h3 className='text-xl font-semibold mb-2 group-hover:text-primary transition-colors'>
@@ -194,7 +192,7 @@ const FAQPage = () => {
 								Learn about my background, experience, and approach to software
 								engineering.
 							</p>
-						</a>
+						</Link>
 						<Link
 							href='/portfolio'
 							className='p-6 rounded-2xl border border-default hover:border-primary/50 hover:bg-primary/5 transition-all group'>
@@ -206,7 +204,7 @@ const FAQPage = () => {
 								and myself.
 							</p>
 						</Link>
-						<a
+						<Link
 							href='/contact'
 							className='p-6 rounded-2xl border border-default hover:border-primary/50 hover:bg-primary/5 transition-all group'>
 							<h3 className='text-xl font-semibold mb-2 group-hover:text-primary transition-colors'>
@@ -216,7 +214,7 @@ const FAQPage = () => {
 								Get in touch directly to discuss your project or ask specific
 								questions.
 							</p>
-						</a>
+						</Link>
 					</div>
 				</div>
 			</section>

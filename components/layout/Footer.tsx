@@ -5,10 +5,10 @@ import Link from 'next/link';
 import {
 	FaGithub,
 	FaLinkedin,
-	FaTwitter,
 	FaChevronRight,
 	FaArrowUp,
 } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
 
 const Footer = () => {
 	const currentYear = new Date().getFullYear();
@@ -67,7 +67,7 @@ const Footer = () => {
 								<FaGithub className='w-5 h-5 text-muted-foreground hover:text-foreground transition-colors' />
 							</Link>
 							<Link
-								href='https://linkedin.com/in/cosbydeveloper'
+								href='https://www.linkedin.com/in/godfred-awusi-dev/'
 								target='_blank'
 								rel='noopener noreferrer'
 								className='p-2 rounded-lg border border-default hover:border-primary/50 hover:bg-primary/5 transition-colors'
@@ -75,12 +75,12 @@ const Footer = () => {
 								<FaLinkedin className='w-5 h-5 text-muted-foreground hover:text-foreground transition-colors' />
 							</Link>
 							<Link
-								href='https://twitter.com/cosbyDeveloper'
+								href='https://twitter.com/cosby_Tech'
 								target='_blank'
 								rel='noopener noreferrer'
 								className='p-2 rounded-lg border border-default hover:border-primary/50 hover:bg-primary/5 transition-colors'
 								aria-label='Twitter'>
-								<FaTwitter className='w-5 h-5 text-muted-foreground hover:text-foreground transition-colors' />
+								<FaXTwitter className='w-5 h-5 text-muted-foreground hover:text-foreground transition-colors' />
 							</Link>
 						</div>
 						<Link

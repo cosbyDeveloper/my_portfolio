@@ -12,7 +12,7 @@ export const resumeData = {
 	},
 
 	links: {
-		linkedin: 'https://linkedin.com/in/cosbydeveloper',
+		linkedin: 'https://www.linkedin.com/in/godfred-awusi-dev/',
 		portfolio: '/portfolio',
 		contact: '/contact',
 	},

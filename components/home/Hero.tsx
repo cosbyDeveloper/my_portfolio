@@ -53,7 +53,7 @@ const Hero = () => {
 						<div className='inline-flex items-center rounded-full border border-default px-3 py-1 text-sm mb-6 '>
 							<span className='mr-2'>👋</span>
 							<span className='text-muted-foreground'>
-								{hero.greeting || 'Hello, I&apos;m'}
+								{hero.greeting || "Hello, I'm"}
 							</span>
 						</div>
 
