@@ -2,8 +2,6 @@
 
 A modern, scalable personal portfolio website built with **Next.js (App Router)** and **Tailwind CSS**, designed with a strong focus on **layout architecture, component reusability, and future extensibility**.
 
-This project is being built incrementally with production-grade patterns rather than rushed UI assembly.
-
 ---
 
 ## 🚀 Tech Stack
