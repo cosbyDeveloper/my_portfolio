@@ -1,37 +1,97 @@
 // components/blog/BlogContent.tsx
 'use client';
 
+import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { BlogPost } from '@/constants/blogs';
 import BlogCard from '@/components/blog/BlogCard';
 import Pagination from '@/components/shared/Pagination';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface BlogContentProps {
 	filters: { key: string; label: string }[];
-	activeFilter: string;
-	featuredBlogs: BlogPost[];
-	sortedBlogs: BlogPost[];
-	paginatedBlogs: BlogPost[];
-	currentPage: number;
+	initialFilter: string;
+	initialPage: number;
 	itemsPerPage: number;
-	totalDisplayItems: number;
-	showFeaturedSection: boolean;
+	allBlogs: BlogPost[];
 }
 
 const BlogContent = ({
 	filters,
-	activeFilter,
-	featuredBlogs,
-	sortedBlogs,
-	paginatedBlogs,
-	currentPage,
+	initialFilter,
+	initialPage,
 	itemsPerPage,
-	totalDisplayItems,
-	showFeaturedSection,
+	allBlogs,
 }: BlogContentProps) => {
 	const router = useRouter();
+	const searchParams = useSearchParams();
 
+	// Derive filter and page directly from URL search params (avoid setState in effect)
+	const activeFilter =
+		(searchParams.get('filter') as string) || initialFilter || 'all';
+	const currentPage = (() => {
+		const pageStr = searchParams.get('page') || String(initialPage || 1);
+		const parsed = parseInt(pageStr, 10);
+		return Number.isNaN(parsed) ? 1 : parsed;
+	})();
+
+	// Memoize sorted blogs
+	const sortedBlogs = useMemo(() => {
+		return [...allBlogs].sort((a, b) => {
+			const dateA = new Date(a.date).getTime() || 0;
+			const dateB = new Date(b.date).getTime() || 0;
+			return dateB - dateA;
+		});
+	}, [allBlogs]);
+
+	// Memoize filtered blogs
+	const filteredBlogs = useMemo(() => {
+		if (activeFilter === 'all') {
+			return sortedBlogs;
+		}
+		return sortedBlogs.filter((blog) => blog.tags.includes(activeFilter));
+	}, [sortedBlogs, activeFilter]);
+
+	// Memoize featured blogs
+	const featuredBlogs = useMemo(() => {
+		return sortedBlogs.filter((blog) => blog.featured).slice(0, 3);
+	}, [sortedBlogs]);
+
+	// Memoize non-featured blogs for pagination
+	const nonFeaturedBlogs = useMemo(() => {
+		return filteredBlogs.filter(
+			(blog) => !featuredBlogs.some((f) => f.slug === blog.slug),
+		);
+	}, [filteredBlogs, featuredBlogs]);
+
+	// Calculate paginated blogs
+	const paginatedBlogs = useMemo(() => {
+		const showFeaturedSection = currentPage === 1 && featuredBlogs.length > 0;
+
+		if (currentPage === 1) {
+			// Page 1: show featured + remaining posts up to itemsPerPage
+			const regularItems =
+				itemsPerPage - (showFeaturedSection ? featuredBlogs.length : 0);
+			return nonFeaturedBlogs.slice(0, regularItems);
+		} else {
+			// Page > 1: paginate remaining posts
+			const startIndex = Math.max(
+				0,
+				(currentPage - 2) * itemsPerPage +
+					(itemsPerPage - featuredBlogs.length),
+			);
+			const endIndex = startIndex + itemsPerPage;
+			return nonFeaturedBlogs.slice(startIndex, endIndex);
+		}
+	}, [nonFeaturedBlogs, currentPage, itemsPerPage, featuredBlogs]);
+
+	// Calculate total display items and pages
+	const totalDisplayItems = nonFeaturedBlogs.length;
+	const totalPages = Math.max(1, Math.ceil(totalDisplayItems / itemsPerPage));
+	const safeCurrentPage = Math.min(Math.max(1, currentPage), totalPages);
+	const showFeaturedSection = safeCurrentPage === 1 && featuredBlogs.length > 0;
+
+	// Handle filter change
 	const handleFilterChange = (filter: string) => {
 		const params = new URLSearchParams(window.location.search);
 		if (filter !== 'all') {
@@ -43,6 +103,7 @@ const BlogContent = ({
 		router.push(`/blog?${params.toString()}`);
 	};
 
+	// Handle page change
 	const handlePageChange = (page: number) => {
 		const params = new URLSearchParams(window.location.search);
 
@@ -103,7 +164,8 @@ const BlogContent = ({
 					{/* Blogs Count */}
 					<div className='mb-8 text-center'>
 						<p className='text-muted-foreground'>
-							{sortedBlogs.length} article{sortedBlogs.length !== 1 ? 's' : ''}
+							{filteredBlogs.length} article
+							{filteredBlogs.length !== 1 ? 's' : ''}
 							{activeFilter !== 'all' && ` tagged with "${activeFilter}"`}
 						</p>
 					</div>
@@ -113,7 +175,7 @@ const BlogContent = ({
 			{/* Blogs Section */}
 			<section className='pb-16 lg:pb-24 px-6 lg:px-12'>
 				<div className='max-w-6xl mx-auto'>
-					{sortedBlogs.length === 0 ? (
+					{filteredBlogs.length === 0 ? (
 						<motion.div
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}
@@ -130,7 +192,7 @@ const BlogContent = ({
 						</motion.div>
 					) : (
 						<>
-							{/* Featured Section - Only show on first page when there are featured blogs */}
+							{/* Featured Section */}
 							{showFeaturedSection && featuredBlogs.length > 0 && (
 								<motion.div
 									initial={{ opacity: 0, y: 20 }}
@@ -148,7 +210,6 @@ const BlogContent = ({
 									<div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
 										{featuredBlogs.map((post, index) => (
 											<div key={post.slug} className='relative'>
-												{/* Featured badge */}
 												<div className='absolute top-4 right-4 z-10'>
 													<span className='px-3 py-1 rounded-full bg-primary/90 text-white text-xs font-medium flex items-center gap-1'>
 														<span className='text-yellow-300'>★</span>
@@ -175,11 +236,11 @@ const BlogContent = ({
 								animate={{ opacity: 1, y: 0 }}
 								className='mb-8'>
 								<h2 className='text-2xl font-semibold'>
-									{currentPage === 1 && showFeaturedSection
+									{safeCurrentPage === 1 && showFeaturedSection
 										? 'More Articles'
-										: `Page ${currentPage}`}
+										: `Page ${safeCurrentPage}`}
 								</h2>
-								{currentPage === 1 && showFeaturedSection && (
+								{safeCurrentPage === 1 && showFeaturedSection && (
 									<p className='text-muted-foreground mt-2'>
 										Browse all articles below. Featured articles are highlighted
 										above.
@@ -187,7 +248,7 @@ const BlogContent = ({
 								)}
 							</motion.div>
 
-							{/* Blog Grid - 3 columns */}
+							{/* Blog Grid */}
 							{paginatedBlogs.length === 0 ? (
 								<motion.div
 									initial={{ opacity: 0, y: 20 }}
@@ -226,7 +287,7 @@ const BlogContent = ({
 											<Pagination
 												totalItems={totalDisplayItems}
 												itemsPerPage={itemsPerPage}
-												currentPage={currentPage}
+												currentPage={safeCurrentPage}
 												onPageChange={handlePageChange}
 												showCount={true}
 											/>
@@ -248,10 +309,7 @@ const BlogContent = ({
 										software development, AI, and career growth.
 									</p>
 									<form
-										onSubmit={(e) => {
-											e.preventDefault();
-											// Handle subscription
-										}}
+										onSubmit={(e) => e.preventDefault()}
 										className='flex flex-col sm:flex-row gap-3 max-w-md mx-auto'>
 										<input
 											type='email'

@@ -1,32 +1,67 @@
 // components/portfolio/PortfolioContent.tsx
 'use client';
 
+import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import ProjectCard from '@/components/portfolio/ProjectCard';
 import Pagination from '@/components/shared/Pagination';
 import { Project } from '@/constants/projects';
 
 interface PortfolioContentProps {
 	categories: { key: string; label: string }[];
-	activeCategory: string;
-	filteredProjects: Project[];
-	paginatedProjects: Project[];
-	currentPage: number;
+	initialCategory: string;
+	initialPage: number;
 	itemsPerPage: number;
+	allProjects: Project[];
 }
 
 const PortfolioContent = ({
 	categories,
-	activeCategory,
-	filteredProjects,
-	paginatedProjects,
-	currentPage,
+	initialCategory,
+	initialPage,
 	itemsPerPage,
+	allProjects,
 }: PortfolioContentProps) => {
 	const router = useRouter();
+	const searchParams = useSearchParams();
 
+	// Derive category and page directly from URL search params
+	const activeCategory =
+		(searchParams.get('category') as string) || initialCategory || 'all';
+	const currentPage = (() => {
+		const pageStr = searchParams.get('page') || String(initialPage || 1);
+		const parsed = parseInt(pageStr, 10);
+		return Number.isNaN(parsed) ? 1 : parsed;
+	})();
+
+	// Memoize filtered projects
+	const filteredProjects = useMemo(() => {
+		return allProjects.filter(
+			(project) =>
+				activeCategory === 'all' || project.category.key === activeCategory,
+		);
+	}, [allProjects, activeCategory]);
+
+	// Calculate pagination
+	const totalPages = Math.max(
+		1,
+		Math.ceil(filteredProjects.length / itemsPerPage),
+	);
+	const safeCurrentPage = Math.min(Math.max(1, currentPage), totalPages);
+
+	// Paginate projects
+	const paginatedProjects = useMemo(() => {
+		const startIndex = (safeCurrentPage - 1) * itemsPerPage;
+		const endIndex = Math.min(
+			startIndex + itemsPerPage,
+			filteredProjects.length,
+		);
+		return filteredProjects.slice(startIndex, endIndex);
+	}, [filteredProjects, safeCurrentPage, itemsPerPage]);
+
+	// Handle category change
 	const handleCategoryChange = (category: string) => {
 		const params = new URLSearchParams(window.location.search);
 		if (category !== 'all') {
@@ -34,10 +69,11 @@ const PortfolioContent = ({
 		} else {
 			params.delete('category');
 		}
-		params.set('page', '1'); // Reset to page 1
+		params.set('page', '1');
 		router.push(`/portfolio?${params.toString()}`);
 	};
 
+	// Handle page change
 	const handlePageChange = (page: number) => {
 		const params = new URLSearchParams(window.location.search);
 
@@ -100,6 +136,7 @@ const PortfolioContent = ({
 						<p className='text-muted-foreground'>
 							{filteredProjects.length} project
 							{filteredProjects.length !== 1 ? 's' : ''}
+							{activeCategory !== 'all' && ` in "${activeCategory}"`}
 						</p>
 					</div>
 				</div>
@@ -151,7 +188,7 @@ const PortfolioContent = ({
 									<Pagination
 										totalItems={filteredProjects.length}
 										itemsPerPage={itemsPerPage}
-										currentPage={currentPage}
+										currentPage={safeCurrentPage}
 										onPageChange={handlePageChange}
 										showCount={true}
 									/>
