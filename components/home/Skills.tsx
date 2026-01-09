@@ -115,11 +115,32 @@ const Skills = () => {
 
 								<div className='relative bg-background/50 backdrop-blur-sm rounded-2xl border border-default p-6 h-full'>
 									{/* Card header with React Icon */}
-									<div className='flex items-center gap-3 mb-6'>
-										<div className='p-2 rounded-lg bg-primary/10'>
-											<GroupIcon className='w-6 h-6 text-primary' />
+									<div className='flex flex-col gap-3 mb-6'>
+										<div className='flex items-center gap-3'>
+											<div className='p-2 rounded-lg bg-primary/10'>
+												<GroupIcon className='w-6 h-6 text-primary' />
+											</div>
+
+											<h3 className='text-xl font-semibold'>{group.title}</h3>
 										</div>
-										<h3 className='text-xl font-semibold'>{group.title}</h3>
+
+										{/* Status Badge */}
+										{group.status && (
+											<div className='flex items-center gap-3'>
+												<span className='text-sm font-medium text-muted-foreground'>
+													{group.status}:
+												</span>
+
+												<span
+													className={`px-3 py-1 rounded-full text-xs font-medium ${
+														group.status === 'Current'
+															? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30'
+															: 'bg-muted text-muted-foreground border border-border'
+													}`}>
+													{group.statusLabel}
+												</span>
+											</div>
+										)}
 									</div>
 
 									{/* Skills list */}

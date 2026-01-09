@@ -25,100 +25,180 @@ export const blogs: BlogPost[] = [
 		slug: 'building-cosby-technologies',
 		title: "Lessons from Building Cosby Technologies: A Founder's Journey",
 		excerpt:
-			'What I learned about product thinking, discipline, and engineering while building Cosby Technologies from the ground up.',
+			'A candid reflection on the struggles, false starts, hard decisions, and engineering lessons learned while building Cosby Technologies — and the clarity shaping its next phase.',
 		content: `
-      <h2 id="introduction">Introduction</h2>
-      <p>Building Cosby Technologies from scratch has been one of the most challenging and rewarding experiences of my career. As a solo founder and developer, I've had to wear multiple hats while maintaining technical excellence and business focus. This post shares the key lessons learned during this journey.</p>
+	<h2 id="introduction">Introduction</h2>
+	<p>
+		Building Cosby Technologies has been far more than a technical exercise. It has been a personal
+		experiment in discipline, resilience, and long-term thinking. What began as an attempt to freelance,
+		build products, and grow quickly evolved into a deeper lesson on how difficult it truly is to build
+		a real company — especially alone.
+	</p>
+	<p>
+		This post is not a success story. It is an honest account of slow progress, limited wins, wrong turns,
+		and the gradual mindset shifts that are now reshaping Cosby Technologies into something more deliberate,
+		focused, and sustainable.
+	</p>
 
-      <h3 id="the-starting-point">The Starting Point</h3>
-      <p>When I started Cosby Technologies in 2021, I had a clear vision but limited resources. The initial focus was on building a platform that could serve both as a showcase for my work and a foundation for future products. The goal was to create something that demonstrated technical competence while being scalable enough to evolve with my ambitions.</p>
+	<h2 id="the-starting-point">The Starting Point</h2>
+	<p>
+		I startedCosby Technologies in 2021 with limited resources, no external funding, and a broad but
+		undeveloped vision. The original goal was simple: create a structure that could support freelance
+		work, experimentation, and eventually product development under a single identity.
+	</p>
+	<p>
+		In practice, execution lagged behind intention. While a few client projects were completed, there
+		was no consistent momentum. I underestimated how much structure, focus, and operational clarity
+		a company actually needs — beyond just writing good code.
+	</p>
 
-      <blockquote>
-        <p>"The best way to predict the future is to invent it." - Alan Kay</p>
-      </blockquote>
+	<blockquote>
+		<p>
+			Vision without execution is hallucination. – Thomas Edison
+		</p>
+	</blockquote>
 
-      <h2 id="technical-decisions">Key Technical Decisions</h2>
-      
-      <h3 id="technology-stack">Choosing the Right Technology Stack</h3>
-      <p>I chose Next.js for the frontend and Django for the backend - a combination that provided the perfect balance of rapid development, scalability, and maintainability. This decision was based on:</p>
-      <ul>
-        <li><strong>Familiarity:</strong> Deep experience with both technologies</li>
-        <li><strong>Community Support:</strong> Large ecosystems and documentation</li>
-        <li><strong>Scalability:</strong> Proven ability to handle growth</li>
-        <li><strong>Performance:</strong> Server-side rendering and optimized delivery</li>
-      </ul>
+	<h2 id="early-mistakes">Early Mistakes and Hard Lessons</h2>
+	<p>
+		One of the earliest mistakes was trying to pursue too many directions at once. I explored multiple
+		product ideas, offered broad services, and rebuilt systems repeatedly instead of committing to
+		fewer, clearer paths. While this phase accelerated learning, it also diluted progress.
+	</p>
+	<p>
+		Another critical mistake was treating Cosby Technologies as a loose collection of projects rather
+		than as a company with internal systems, priorities, and identity. Without defined processes or
+		clear positioning, effort often felt busy rather than meaningful.
+	</p>
+	<p>
+		These shortcomings did not invalidate the journey — they clarified what was missing. Focus,
+		discipline, and intentional structure became non-negotiable lessons.
+	</p>
 
-      <h3 id="architecture-approach">Architecture Approach</h3>
-      <p>I adopted a microservices-inspired architecture from the beginning, even though I was starting small. This meant:</p>
-      <ul>
-        <li>Clear separation between frontend and backend</li>
-        <li>API-first design principles</li>
-        <li>Containerization with Docker from day one</li>
-        <li>CI/CD pipelines for automated deployment</li>
-      </ul>
+	<h2 id="technical-decisions">Key Technical Decisions</h2>
 
-      <h2 id="challenges-faced">Major Challenges and Solutions</h2>
-      
-      <h3 id="time-management">Managing Time and Priorities</h3>
-      <p>As a solo founder, time management became critical. I had to balance:</p>
-      <ul>
-        <li>Client project work (for revenue)</li>
-        <li>Platform development</li>
-        <li>Learning and skill development</li>
-        <li>Business development and networking</li>
-      </ul>
-      <p><strong>Solution:</strong> I implemented strict time blocking and prioritized tasks based on long-term impact rather than immediate gratification.</p>
+	<h3 id="technology-stack">Choosing a Sustainable Technology Stack</h3>
+	<p>
+		As clarity improved, technical decisions became more intentional. The combination of Next.js on
+		the frontend and Django on the backend emerged not from trend-following, but from practical experience
+		with maintainability, scalability, and long-term clarity.
+	</p>
+	<ul>
+		<li><strong>Stability:</strong> Mature tools with predictable evolution</li>
+		<li><strong>Scalability:</strong> Architectures that can grow without rewrites</li>
+		<li><strong>Efficiency:</strong> Faster iteration without sacrificing structure</li>
+		<li><strong>Clarity:</strong> Readable systems that are easy to reason about</li>
+	</ul>
 
-      <h3 id="technical-debt">Managing Technical Debt</h3>
-      <p>Technical debt accumulates quickly when you're building rapidly. My approach:</p>
-      <ul>
-        <li>Scheduled refactoring sessions every two weeks</li>
-        <li>Comprehensive test coverage from the start</li>
-        <li>Documentation as part of the development process</li>
-        <li>Regular code reviews (even if self-conducted)</li>
-      </ul>
+	<h3 id="architecture-approach">Architecture and Systems Thinking</h3>
+	<p>
+		A gradual shift toward API-first design and modular architecture marked a turning point.
+		Instead of building features in isolation, systems were designed to support reuse,
+		internal tooling, and future contributors.
+	</p>
+	<ul>
+		<li>Clear separation of frontend and backend responsibilities</li>
+		<li>Containerized environments for consistency</li>
+		<li>Documentation treated as a first-class asset</li>
+		<li>Refactoring viewed as continuous maintenance, not rework</li>
+	</ul>
 
-      <h2 id="lessons-learned">Key Lessons Learned</h2>
-      
-      <h3 id="product-thinking">Product Thinking Over Project Thinking</h3>
-      <p>The biggest shift in mindset was moving from "project completion" to "product evolution." This meant:</p>
-      <ul>
-        <li>Focusing on user experience, not just functionality</li>
-        <li>Planning for scalability from the beginning</li>
-        <li>Building systems, not just features</li>
-        <li>Prioritizing maintainability over cleverness</li>
-      </ul>
+	<h2 id="operational-challenges">Operational Challenges</h2>
 
-      <h3 id="discipline-consistency">The Importance of Discipline and Consistency</h3>
-      <p>Building a technology company requires consistent effort over time. Key habits that helped:</p>
-      <ul>
-        <li>Daily coding practice, even on difficult days</li>
-        <li>Regular reflection and adjustment of goals</li>
-        <li>Continuous learning through courses and reading</li>
-        <li>Networking with other developers and entrepreneurs</li>
-      </ul>
+	<h3 id="time-management">Balancing Client Work and Long-Term Vision</h3>
+	<p>
+		One persistent challenge has been balancing short-term survival with long-term ambition.
+		Client projects provided income but often slowed internal progress. The issue was not the
+		work itself, but the absence of a clear operating model.
+	</p>
+	<p>
+		This led to a more deliberate separation: client work to sustain the company, and protected
+		time for internal product development.
+	</p>
 
-      <h2 id="looking-forward">Looking Forward</h2>
-      <p>Cosby Technologies continues to evolve. Current focus areas include:</p>
-      <ul>
-        <li>Expanding the service offerings</li>
-        <li>Building AI/ML capabilities into existing products</li>
-        <li>Developing more comprehensive client tools</li>
-        <li>Contributing to open source projects</li>
-      </ul>
+	<h3 id="discipline">Discipline Over Momentum</h3>
+	<p>
+		Momentum proved unreliable. What produced results was discipline — showing up consistently,
+		reducing scope, and committing to fewer priorities at a time. Progress became slower,
+		but significantly more stable.
+	</p>
 
-      <h2 id="conclusion">Conclusion</h2>
-      <p>Building Cosby Technologies has taught me more about software engineering, business, and personal growth than any course or job could. The journey has reinforced that success in technology entrepreneurship comes from a combination of technical excellence, business acumen, and personal discipline.</p>
-      <p>For fellow developers considering starting their own ventures, my advice is simple: start small, think big, stay consistent, and never stop learning.</p>
-    `,
+	<h2 id="product-mindset">From Services to Products</h2>
+	<p>
+		A major realization was that long-term value would not come from client work alone.
+		Services are important, but products create leverage. This shifted Cosby Technologies toward
+		a hybrid model: client services alongside internally built products.
+	</p>
+	<ul>
+		<li>Building internal tools before public-facing products</li>
+		<li>Designing reusable foundations instead of one-off solutions</li>
+		<li>Thinking in iterations, not launches</li>
+	</ul>
+
+	<h2 id="future-direction">Future Direction: A Clearer Operating Model</h2>
+	<p>
+		The current phase of Cosby Technologies is one of reorganization and intentional reset.
+		The company is moving forward with a clearer structure informed by past mistakes.
+	</p>
+
+	<h3 id="core-focus">A Three-Part Focus</h3>
+	<p>
+		Going forward, Cosby Technologies will operate around three aligned pillars:
+	</p>
+	<ul>
+		<li><strong>Client Projects:</strong> Actively pursued and executed with higher selectivity to sustain operations</li>
+		<li><strong>In-House Products:</strong> Purpose-built tools and platforms developed internally for long-term growth</li>
+		<li><strong>Cosby Academy:</strong> A knowledge and training arm focused on practical software engineering education</li>
+	</ul>
+
+	<h3 id="team-building">Preparing for Collaboration</h3>
+	<p>
+		While still operating as a solo founder, the company is being structured with collaboration in mind.
+		The goal is not rapid hiring, but readiness — clear codebases, documented processes, and defined direction
+		before inviting others in.
+	</p>
+
+	<h3 id="going-public">Going Public as a Reintroduction</h3>
+	<p>
+		Going public is not framed as a celebration of success, but as a statement of intent.
+		It represents a willingness to be visible, accountable, and consistent about what
+		Cosby Technologies is — and what it is still becoming.
+	</p>
+
+	<h3 id="long-term-vision">A Practical Long-Term Vision</h3>
+	<p>
+		The long-term vision is not aggressive expansion, but durable relevance.
+		Cosby Technologies aims to grow through well-designed products, applied AI where it
+		makes sense, and a culture of learning reinforced through Cosby Academy.
+	</p>
+	<p>
+		Every decision moving forward is filtered through one question:
+		<strong>Does this build something worth maintaining?</strong>
+	</p>
+
+	<h2 id="conclusion">Conclusion</h2>
+	<p>
+		Cosby Technologies has not moved fast — and that reality matters.
+		The progress so far has been modest, but the clarity gained has been significant.
+	</p>
+	<p>
+		This next phase is not about chasing validation, but about building deliberately,
+		learning publicly, and growing at a pace that aligns with long-term intent.
+		The journey is still early — but it is now grounded.
+	</p>
+	`,
 		date: '2025-01-05',
-		tags: ['Startups', 'Engineering', 'Entrepreneurship', 'Web Development'],
+		tags: [
+			'Startups',
+			'Engineering',
+			'Entrepreneurship',
+			'Software Architecture',
+		],
 		featured: true,
 		image: '/images/blog/cosby-technologies.jpg',
 		author: 'Godfred Awusi',
-		readTime: '8 min read',
+		readTime: '9 min read',
 		metaDescription:
-			'Lessons learned from building Cosby Technologies as a solo founder and developer, covering technical decisions, challenges, and personal growth.',
+			'An honest reflection on building Cosby Technologies, covering early struggles, limited traction, key lessons learned, and the company’s reorganization toward products, education, and sustainable growth.',
 	},
 
 	{
@@ -142,7 +222,7 @@ export const blogs: BlogPost[] = [
       </ul>
 
       <blockquote>
-        <p>"Reliability is not just about preventing failures, but about how you handle them when they inevitably occur."</p>
+        <p>Reliability is not just about preventing failures, but about how you handle them when they inevitably occur.</p>
       </blockquote>
 
       <h3 id="data-integrity">Data Integrity and Consistency</h3>
@@ -272,129 +352,148 @@ export const blogs: BlogPost[] = [
 		slug: 'faith-and-career',
 		title: 'Faith, Career, and Purpose in Tech: Finding Balance and Meaning',
 		excerpt:
-			'Balancing ambition, faith, and long-term impact as a software engineer. Reflections on finding purpose in technology careers.',
+			'A reflective look at ambition, faith, and purpose in a tech career — and how belief quietly reshapes decisions, pressure, and long-term impact.',
 		content: `
-      <h2 id="introduction">Introduction: The Search for Meaning</h2>
-      <p>In the fast-paced world of technology, it's easy to get caught up in the race for the next promotion, the highest salary, or the most impressive tech stack. But as professionals, especially those of faith, we often find ourselves asking deeper questions about purpose, impact, and how our work fits into a larger picture.</p>
+	<h2 id="introduction">Introduction: When Progress Isn’t Enough</h2>
+	<p>
+		The technology industry rewards speed, visibility, and constant progress. New tools emerge daily,
+		career milestones are publicly celebrated, and comparison is never more than a scroll away.
+		Yet even in moments of growth, many professionals quietly ask a deeper question:
+		<strong>Is this all there is?</strong>
+	</p>
+	<p>
+		For those of faith, that question carries extra weight. It is not just about success or competence,
+		but about meaning — how work fits into a larger purpose, and whether ambition is shaping us
+		or quietly hollowing us out.
+	</p>
 
-      <h2 id="defining-purpose">Defining Purpose in Tech</h2>
-      
-      <h3 id="beyond-the-paycheck">Beyond the Paycheck: What Really Matters</h3>
-      <p>While financial stability is important, purpose in tech comes from:</p>
-      <ul>
-        <li><strong>Problem Solving:</strong> Using technology to solve real-world problems</li>
-        <li><strong>People Impact:</strong> How your work affects users' lives</li>
-        <li><strong>Skill Development:</strong> Continuous growth and learning</li>
-        <li><strong>Community Contribution:</strong> Giving back through mentorship and open source</li>
-      </ul>
+	<h2 id="defining-purpose">Rethinking Purpose in a Tech Career</h2>
+	<p>
+		Early in a career, purpose is often confused with achievement: landing the job, mastering the stack,
+		or earning more than before. These goals are not wrong — they are necessary. But over time,
+		it becomes clear that they are insufficient.
+	</p>
+	<p>
+		Purpose in tech begins to take shape when work moves beyond personal gain and toward contribution.
+		When the question shifts from <em>"What can I get from this role?"</em> to
+		<em>"Who does this work ultimately serve?"</em>
+	</p>
 
-      <blockquote>
-        <p>"Your work is going to fill a large part of your life, and the only way to be truly satisfied is to do what you believe is great work." - Steve Jobs</p>
-      </blockquote>
+	<blockquote>
+		<p>
+			Your work is going to fill a large part of your life, and the only way to be truly satisfied
+			is to do what you believe is great work. – Steve Jobs
+		</p>
+	</blockquote>
 
-      <h2 id="faith-integration">Integrating Faith and Work</h2>
-      
-      <h3 id="ethical-decision-making">Ethical Decision Making in Tech</h3>
-      <p>Faith provides a framework for ethical decisions in technology:</p>
-      <ul>
-        <li><strong>Privacy vs. Profit:</strong> Protecting user data even when it's profitable not to</li>
-        <li><strong>Accessibility:</strong> Ensuring technology serves everyone, not just the privileged</li>
-        <li><strong>Transparency:</strong> Being honest about limitations and capabilities</li>
-        <li><strong>Sustainability:</strong> Considering environmental impact of tech decisions</li>
-      </ul>
+	<h2 id="faith-integration">Faith as a Quiet Framework, Not a Loud Label</h2>
+	<p>
+		Integrating faith into work does not mean constant religious expression or public declarations.
+		More often, it operates quietly — shaping decisions when no one is watching.
+	</p>
+	<p>
+		Faith introduces restraint into an industry that often celebrates excess:
+		excessive hours, excessive ambition, excessive compromise. It asks uncomfortable questions
+		about integrity, honesty, and responsibility long before problems surface.
+	</p>
 
-      <h3 id="work-as-worship">Work as Worship: A Different Perspective</h3>
-      <p>Viewing work through a lens of faith means:</p>
-      <ul>
-        <li><strong>Excellence:</strong> Doing your best work as an offering</li>
-        <li><strong>Integrity:</strong> Honesty in all professional dealings</li>
-        <li><strong>Service:</strong> Using skills to help others</li>
-        <li><strong>Stewardship:</strong> Responsible use of resources and talents</li>
-      </ul>
+	<h3 id="ethical-decisions">Ethics Under Pressure</h3>
+	<p>
+		In technology, ethical dilemmas rarely announce themselves clearly. They appear as trade-offs:
+		privacy versus profit, speed versus safety, growth versus responsibility.
+		Faith does not always provide easy answers, but it anchors decision-making in human dignity,
+		truthfulness, and long-term consequences.
+	</p>
 
-      <h2 id="practical-balance">Practical Balance in Daily Work</h2>
-      
-      <h3 id="time-management">Managing Time and Priorities</h3>
-      <p>Balancing work demands with faith practices:</p>
-      <ul>
-        <li><strong>Boundary Setting:</strong> Protecting time for spiritual practices</li>
-        <li><strong>Work-Life Integration:</strong> Finding harmony rather than balance</li>
-        <li><strong>Sabbath Principle:</strong> Regular rest and disconnection</li>
-        <li><strong>Mindful Technology Use:</strong> Intentional engagement with tech</li>
-      </ul>
+	<h2 id="work-and-worship">Work as Stewardship, Not Identity</h2>
+	<p>
+		One of the most freeing shifts is separating identity from output.
+		Faith reframes work not as a measure of worth, but as stewardship — the responsible use
+		of skills, time, and opportunities entrusted to us.
+	</p>
+	<p>
+		This perspective encourages excellence without obsession, ambition without desperation,
+		and growth without burnout. Work becomes meaningful not because it defines who we are,
+		but because of how faithfully we engage with it.
+	</p>
 
-      <h3 id="stress-management">Managing Stress and Burnout</h3>
-      <p>Tech careers can be stressful. Faith-based coping strategies:</p>
-      <ul>
-        <li><strong>Perspective:</strong> Remembering what truly matters</li>
-        <li><strong>Community:</strong> Finding supportive faith communities</li>
-        <li><strong>Prayer/Meditation:</strong> Spiritual practices for stress relief</li>
-        <li><strong>Service Focus:</strong> Shifting focus from self to others</li>
-      </ul>
+	<h2 id="pressure-and-burnout">Pressure, Burnout, and the Illusion of Constant Motion</h2>
+	<p>
+		Tech culture often glorifies exhaustion as commitment. Long hours become a badge of honor,
+		and rest feels like falling behind. Over time, this mindset erodes clarity and joy.
+	</p>
+	<p>
+		Faith challenges this narrative by reintroducing limits. Rest is not weakness;
+		it is recognition that productivity alone cannot sustain a meaningful life.
+		The discipline of rest — whether through reflection, prayer, or intentional disconnection —
+		creates space to remember what truly matters.
+	</p>
 
-      <h2 id="career-decisions">Making Career Decisions with Faith</h2>
-      
-      <h3 id="job-selection">Choosing the Right Opportunities</h3>
-      <p>Factors to consider beyond salary and title:</p>
-      <ul>
-        <li><strong>Company Values:</strong> Alignment with personal beliefs</li>
-        <li><strong>Work Culture:</strong> Supportive or toxic environment</li>
-        <li><strong>Product Impact:</strong> Positive or negative societal effect</li>
-        <li><strong>Growth Opportunities:</strong> Both professional and personal</li>
-      </ul>
+	<h2 id="career-decisions">Making Career Decisions with a Longer Horizon</h2>
+	<p>
+		As careers mature, decisions carry more weight. Choosing roles, projects, or entrepreneurial paths
+		is no longer just about opportunity, but alignment.
+	</p>
+	<p>
+		Faith encourages a longer view — asking whether a role shapes character positively,
+		contributes to society, and supports a sustainable life, not just short-term advancement.
+	</p>
 
-      <h3 id="entrepreneurship-faith">Faith and Entrepreneurship</h3>
-      <p>Starting a business with faith as a foundation:</p>
-      <ul>
-        <li><strong>Trust in Provision:</strong> Moving forward despite uncertainty</li>
-        <li><strong>Ethical Business Practices:</strong> Fair pricing, honest marketing</li>
-        <li><strong>Community Focus:</strong> Building businesses that serve</li>
-        <li><strong>Generosity:</strong> Sharing success with others</li>
-      </ul>
+	<h3 id="entrepreneurship">Faith and the Uncertainty of Building</h3>
+	<p>
+		Entrepreneurship magnifies uncertainty. Income fluctuates, progress is uneven,
+		and outcomes are never guaranteed. Faith does not eliminate risk,
+		but it reframes uncertainty as a space for trust, humility, and patience.
+	</p>
+	<p>
+		It also sets boundaries — resisting shortcuts, valuing people over profit,
+		and treating success as a responsibility rather than entitlement.
+	</p>
 
-      <h2 id="technology-ethics">Technology Ethics from a Faith Perspective</h2>
-      
-      <h3 id="ai-ethics">Artificial Intelligence and Ethics</h3>
-      <p>Faith perspectives on emerging technologies:</p>
-      <ul>
-        <li><strong>Human Dignity:</strong> Protecting it in AI systems</li>
-        <li><strong>Bias and Fairness:</strong> Ensuring equitable technology</li>
-        <li><strong>Transparency:</strong> Understandable AI decisions</li>
-        <li><strong>Accountability:</strong> Taking responsibility for tech impacts</li>
-      </ul>
+	<h2 id="technology-ethics">Technology, Power, and Responsibility</h2>
+	<p>
+		As technology grows more influential — especially in areas like AI and data —
+		the moral weight of technical decisions increases. Faith insists that innovation
+		should never come at the expense of fairness, transparency, or human dignity.
+	</p>
+	<p>
+		The question is no longer just <em>"Can we build this?"</em> but
+		<em>"Should we, and at what cost?"</em>
+	</p>
 
-      <h3 id="social-media">Social Media and Community</h3>
-      <p>Using social platforms responsibly:</p>
-      <ul>
-        <li><strong>Positive Engagement:</strong> Building up, not tearing down</li>
-        <li><strong>Truthfulness:</strong> Avoiding misinformation</li>
-        <li><strong>Boundaries:</strong> Healthy social media use</li>
-        <li><strong>Community Building:</strong> Creating positive online spaces</li>
-      </ul>
+	<h2 id="long-term-vision">A Career Measured by Legacy, Not Speed</h2>
+	<p>
+		Over time, success begins to look different. It is less about visibility
+		and more about longevity. Less about personal recognition and more about
+		the systems, people, and knowledge left behind.
+	</p>
+	<p>
+		Mentorship, ethical leadership, and building sustainable systems
+		become quiet markers of impact — often unseen, but deeply meaningful.
+	</p>
 
-      <h2 id="long-term-vision">Building a Long-Term Vision</h2>
-      
-      <h3 id="legacy-thinking">Thinking Beyond the Immediate</h3>
-      <p>Building a career with lasting impact:</p>
-      <ul>
-        <li><strong>Mentorship:</strong> Investing in the next generation</li>
-        <li><strong>Knowledge Sharing:</strong> Contributing to collective wisdom</li>
-        <li><strong>Sustainable Systems:</strong> Building things that last</li>
-        <li><strong>Positive Culture:</strong> Creating healthy work environments</li>
-      </ul>
-
-      <h2 id="conclusion">Conclusion: An Integrated Life</h2>
-      <p>Integrating faith and career isn't about adding religious activities to an already busy schedule. It's about allowing your beliefs to shape how you work, what you work on, and why you work. It's about finding the intersection where your skills, passions, and beliefs meet the world's needs.</p>
-      <p>The most fulfilling tech careers aren't just about technical excellence or financial success. They're about using technology as a tool for good, building meaningful relationships through work, and finding purpose in both the daily grind and the long-term vision.</p>
-      <p>Remember: Your career is a journey, not just a destination. And when faith guides that journey, every step - even the difficult ones - becomes part of a larger, more meaningful story.</p>
-    `,
+	<h2 id="conclusion">Conclusion: An Integrated Life</h2>
+	<p>
+		Integrating faith and career is not about adding spirituality on top of ambition.
+		It is about allowing belief to reshape ambition itself — guiding how work is done,
+		why it is pursued, and when to step back.
+	</p>
+	<p>
+		The most fulfilling careers in tech are not defined solely by titles or compensation,
+		but by alignment — between values and actions, effort and rest, skill and service.
+	</p>
+	<p>
+		When faith guides the journey, even uncertainty becomes meaningful,
+		and progress — slow or fast — remains anchored in purpose.
+	</p>
+	`,
 		date: '2024-11-10',
-		tags: ['Career', 'Faith', 'Ethics', 'Work-Life Balance', 'Purpose'],
+		tags: ['Career', 'Faith', 'Ethics', 'Purpose', 'Work-Life Balance'],
 		featured: true,
 		image: '/images/blog/faith-career.jpg',
 		author: 'Godfred Awusi',
-		readTime: '12 min read',
+		readTime: '11 min read',
 		metaDescription:
-			'Exploring how to integrate faith, career, and purpose in the tech industry, with practical advice for finding meaning and balance in technology careers.',
+			'A reflective exploration of faith, ambition, and purpose in a tech career, focusing on ethical decision-making, burnout, entrepreneurship, and long-term meaning.',
 	},
 ];

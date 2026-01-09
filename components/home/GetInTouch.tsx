@@ -15,7 +15,7 @@ import {
 import { FaXTwitter } from 'react-icons/fa6';
 import Link from 'next/link';
 
-const GetInTouch = () => {
+const GetInTouch = ({ showMore = true }) => {
 	const { contact } = homeContent;
 
 	return (
@@ -254,33 +254,35 @@ const GetInTouch = () => {
 				</div>
 
 				{/* Want more info? */}
-				<motion.div
-					initial={{ opacity: 0, y: 20 }}
-					whileInView={{ opacity: 1, y: 0 }}
-					viewport={{ once: true }}
-					transition={{ delay: 0.5 }}
-					className='mt-12 text-center'>
-					<p className='text-muted-foreground mb-4'>
-						Want more info and contact?
-					</p>
-					<Link
-						href='/contact'
-						className='inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-primary text-primary hover:bg-primary/10 transition-colors font-medium'>
-						<span>More on contact</span>
-						<svg
-							className='w-4 h-4'
-							fill='none'
-							stroke='currentColor'
-							viewBox='0 0 24 24'>
-							<path
-								strokeLinecap='round'
-								strokeLinejoin='round'
-								strokeWidth={2}
-								d='M14 5l7 7m0 0l-7 7m7-7H3'
-							/>
-						</svg>
-					</Link>
-				</motion.div>
+				{showMore && (
+					<motion.div
+						initial={{ opacity: 0, y: 20 }}
+						whileInView={{ opacity: 1, y: 0 }}
+						viewport={{ once: true }}
+						transition={{ delay: 0.5 }}
+						className='mt-12 text-center'>
+						<p className='text-muted-foreground mb-4'>
+							Want more info and contact?
+						</p>
+						<Link
+							href='/contact'
+							className='inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-primary text-primary hover:bg-primary/10 transition-colors font-medium'>
+							<span>More on contact</span>
+							<svg
+								className='w-4 h-4'
+								fill='none'
+								stroke='currentColor'
+								viewBox='0 0 24 24'>
+								<path
+									strokeLinecap='round'
+									strokeLinejoin='round'
+									strokeWidth={2}
+									d='M14 5l7 7m0 0l-7 7m7-7H3'
+								/>
+							</svg>
+						</Link>
+					</motion.div>
+				)}
 			</div>
 		</section>
 	);

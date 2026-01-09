@@ -16,8 +16,10 @@ import {
 	FaLightbulb,
 	FaCheckCircle,
 	FaTools,
+	FaPauseCircle,
 	FaRobot,
 } from 'react-icons/fa';
+import ComplexityStars from './ComplexityStars';
 
 interface ProjectDetailsContentProps {
 	project: Project;
@@ -336,8 +338,16 @@ const ProjectDetailsContent = ({
 											Status
 										</h4>
 										<div className='flex items-center gap-2'>
-											<div className='w-2 h-2 rounded-full bg-green-500'></div>
-											<span className='text-foreground'>Completed</span>
+											{project.status === 'completed' ? (
+												<FaCheckCircle className='text-green-500' />
+											) : project.status === 'in progress' ? (
+												<FaTools className='text-yellow-500' />
+											) : project.status === 'on hold' ? (
+												<FaPauseCircle className='text-red-500' />
+											) : (
+												<FaLightbulb className='text-blue-500' />
+											)}
+											<span className='text-foreground'>{project.status}</span>
 										</div>
 									</div>
 									<div>
@@ -350,31 +360,7 @@ const ProjectDetailsContent = ({
 										<h4 className='text-sm font-medium text-muted-foreground mb-1'>
 											Complexity
 										</h4>
-										<div className='flex items-center gap-1'>
-											{[1, 2, 3, 4, 5].map((star) => (
-												<span
-													key={star}
-													className={`text-lg ${
-														star <=
-														(project.stack.length > 8
-															? 5
-															: project.stack.length > 5
-															? 4
-															: 3)
-															? 'text-yellow-500'
-															: 'text-muted-foreground'
-													}`}>
-													★
-												</span>
-											))}
-											<span className='text-sm text-muted-foreground ml-2'>
-												{project.stack.length > 8
-													? 'Advanced'
-													: project.stack.length > 5
-													? 'Intermediate'
-													: 'Beginner'}
-											</span>
-										</div>
+										<ComplexityStars complexity={project.complexity} />
 									</div>
 								</div>
 							</motion.div>

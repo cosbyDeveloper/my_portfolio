@@ -9,7 +9,7 @@ const pageFAQs = [
 	{
 		question: 'What services do you offer as a software engineer?',
 		answer:
-			'I specialize in backend development with Python/Django, full-stack web applications with React/Next.js, API design and development, database architecture (PostgreSQL/MongoDB), system design, and technical consulting. I also offer code reviews and mentorship for developers.',
+			'I specialize in full-stack development with the MERN stack and have recently transitioned to Python/Django with React/Next.js, API design and development, database architecture (PostgreSQL/MongoDB), system design, and technical consulting. I also offer code reviews and mentorship for developers.',
 	},
 	{
 		question: 'How do you approach new projects?',
@@ -29,7 +29,7 @@ const pageFAQs = [
 	{
 		question: 'What technologies do you specialize in?',
 		answer:
-			'My core stack includes: Backend - Python, Django, Django REST Framework; Frontend - React, Next.js, TypeScript, Tailwind CSS; Databases - PostgreSQL, MongoDB; DevOps - Docker, AWS, Vercel; APIs - REST, GraphQL; Tools - Git, GitHub, Linux.',
+			'My core stack includes:Backend option 1 - Node.js, Express; Backend option 2 - Python, Django, Django REST Framework;  Frontend - React, Next.js, TypeScript, Tailwind CSS; Databases - PostgreSQL, MongoDB; DevOps - Docker, AWS, Vercel; APIs - REST; Tools - Git, GitHub, Linux.',
 	},
 	{
 		question: 'Can you help with existing projects or codebases?',

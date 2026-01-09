@@ -11,6 +11,7 @@ interface ProjectCardProps {
 		title: string;
 		summary: string;
 		coverImage?: string;
+		status?: string;
 		category: {
 			key: string;
 			label: string;
@@ -42,7 +43,7 @@ const ProjectCard = ({
 	const getCategoryColor = (categoryKey: string) => {
 		switch (categoryKey) {
 			case 'cosby':
-				return { bgColor: 'bg-primary/70', color: 'text-white' };
+				return { bgColor: 'bg-primary', color: 'text-white' };
 			case 'freelance':
 				return { bgColor: 'bg-orange-500/70', color: 'text-white' };
 			case 'personal':
@@ -58,6 +59,7 @@ const ProjectCard = ({
 		<Card
 			title={project.title}
 			description={showSummary ? project.summary : undefined}
+			status={project.status}
 			imageUrl={project.coverImage || '/images/project-placeholder.jpg'}
 			imageAlt={project.title}
 			href={`/portfolio/${project.slug}`}

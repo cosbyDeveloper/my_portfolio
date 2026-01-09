@@ -22,7 +22,7 @@ const defaultFAQs: FAQItem[] = [
 	{
 		question: 'What types of projects do you typically work on?',
 		answer:
-			'I focus on backend systems, API development, web applications, and now gearing towards AI/ML. My sweet spot is Python/Django backend development with React/Next.js frontend.',
+			'I mainly do full-stack web development, and now gearing towards AI/ML. My sweet spot which I have recently transitioned to is Python/Django backend development with React/Next.js frontend.',
 	},
 	{
 		question: "What's your typical response time?",

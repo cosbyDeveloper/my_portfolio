@@ -110,7 +110,7 @@ export default function ContactPage() {
 			</section>
 
 			{/* Your GetInTouch Component */}
-			<GetInTouch />
+			<GetInTouch showMore={false} />
 
 			{/* Process Section */}
 			<section className='py-16 lg:py-20 px-6 lg:px-12 bg-muted/30'>

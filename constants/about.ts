@@ -18,16 +18,16 @@ export const aboutData = {
 	hero: {
 		title: 'About Me',
 		subtitle:
-			'Software Engineer, Founder, and Systems Thinker building scalable backends and intelligent software solutions.',
+			'Software Engineer, Founder, and Systems Thinker building scalable systems and intelligent software solutions.',
 		description: [
-			"I'm Godfred Awusi, founder of Cosby Technologies. I specialize in building reliable backend systems, scalable web platforms, and software designed to evolve gracefully as complexity grows.",
+			"I'm Godfred Awusi, founder of Cosby Technologies. I specialize in building reliable systems, scalable web platforms, and software designed to evolve gracefully as complexity grows.",
 			'That curiosity gradually evolved into a focus on how systems behave beneath the surface — how they scale, fail, recover, and remain maintainable over time.',
 		],
 		atAGlance: {
 			icon: FaUserTie,
 			title: 'At a Glance',
 			items: [
-				{ icon: FaCode, text: 'Backend-Focused Full-Stack Engineer' },
+				{ icon: FaCode, text: 'Full-Stack Engineer' },
 				{ icon: FaRocket, text: 'Founder, Cosby Technologies' },
 				{ icon: FaGraduationCap, text: 'First Class BSc Computer Science' },
 				{ icon: FaSeedling, text: 'Progressing toward AI/ML-driven systems' },
@@ -43,7 +43,7 @@ export const aboutData = {
 				icon: FaCode,
 				title: 'Backend Systems',
 				description:
-					'Python/Django APIs, scalable architectures, and database design',
+					'MERN & Python/Django APIs, scalable architectures, and database design',
 				color: 'text-blue-500',
 				bg: 'bg-blue-500/10',
 			},
@@ -98,12 +98,13 @@ export const aboutData = {
 			skills: [
 				'React',
 				'Next.js',
-				'TypeScript',
+				'Node.js',
+				'Express',
 				'Python',
 				'Django',
 				'PostgreSQL',
+				'MongoDB',
 				'REST APIs',
-				'System Design',
 			],
 		},
 		workingStyle: {

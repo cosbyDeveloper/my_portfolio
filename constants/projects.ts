@@ -27,6 +27,8 @@ export type Project = {
 	}[];
 	role?: string;
 	timeline?: string;
+	status?: 'initial stage' | 'in progress' | 'completed' | 'on hold';
+	complexity?: 'low' | 'medium' | 'high';
 };
 
 export const projects: Project[] = [
@@ -52,34 +54,30 @@ export const projects: Project[] = [
 		],
 		coverImage: '/images/products/cosby-platform/cover.png',
 		images: [
-			'/images/products/cosby-platform/dashboard.png',
-			'/images/products/cosby-platform/landing.png',
-			'/images/products/cosby-platform/admin.png',
-			'/images/products/cosby-platform/projects.png',
+			// '/images/products/cosby-platform/dashboard.png',
+			// '/images/products/cosby-platform/landing.png',
+			// '/images/products/cosby-platform/admin.png',
+			// '/images/products/cosby-platform/projects.png',
 		],
 		demoUrl: 'https://cosbytechnologies.vercel.app',
 		featured: true,
 		role: 'Full-Stack Developer & Founder',
-		timeline: 'Ongoing since 2021',
+		timeline: 'Ongoing since 2024',
 
 		challenges: [
-			'Creating a scalable architecture that could evolve with the company',
+			'Creating a scalable architecture that can evolve with the company',
 			'Implementing a unified design system across multiple product lines',
-			'Balancing feature development with technical debt management',
 			'Ensuring optimal performance across diverse user scenarios',
 		],
 
 		solutions: [
-			'Adopted microservices architecture with clear separation of concerns',
+			'Adopting microservices architecture with clear separation of concerns',
 			'Developed a custom design system using Tailwind CSS and component libraries',
-			'Implemented CI/CD pipelines for automated testing and deployment',
 			'Used server-side rendering and image optimization for performance',
 		],
 
 		lessons: [
 			'Importance of documentation from the earliest stages',
-			'Value of automated testing for long-term maintainability',
-			'Benefits of containerization for consistent development environments',
 			'Need for regular technical debt assessment and refactoring',
 		],
 
@@ -106,9 +104,11 @@ export const projects: Project[] = [
 			{
 				title: 'Deployment & DevOps',
 				description:
-					'Containerized with Docker and deployed on AWS with auto-scaling. CI/CD pipelines handle automated testing, building, and deployment.',
+					'Frontend currently is deployed on vercel. Later, the project will be Containerized with Docker and deployed on AWS with auto-scaling. CI/CD pipelines handle automated testing, building, and deployment.',
 			},
 		],
+		status: 'initial stage',
+		complexity: 'high',
 	},
 
 	{
@@ -119,24 +119,16 @@ export const projects: Project[] = [
 			label: 'Freelance Project',
 		},
 		summary:
-			'A web-based logistics platform for Zeph Impact Logistics to showcase managing supply chains and transportation workflows.',
+			'A web-based logistics platform for Zeph Impact Logistics to showcase managing warehouse, supply chains and transportation workflows.',
 		description:
-			'A comprehensive logistics and supply chain management website designed to showcase services, streamline operational workflows, and support future system expansion into dashboards and analytics. The platform provides a modern interface for client engagement while laying the foundation for future operational tools.',
-		stack: [
-			'Next.js',
-			'TypeScript',
-			'Bootstrap',
-			'Node.js',
-			'MongoDB',
-			'Express',
-			'JWT',
-		],
+			'A comprehensive logistics and supply chain company website designed to showcase services, streamline operational workflows, and support future system expansion into dashboards and analytics. The platform provides a modern interface for client engagement while laying the foundation for future operational tools.',
+		stack: ['Next.js (API routes)', 'Bootstrap', 'MongoDB', 'JWT'],
 		coverImage: '/images/products/logistics-system/cover.png',
 		images: [
-			'/images/products/logistics-system/services.png',
-			'/images/products/logistics-system/transport.png',
-			'/images/products/logistics-system/dashboard.png',
-			'/images/products/logistics-system/contact.png',
+			// '/images/products/logistics-system/services.png',
+			// '/images/products/logistics-system/transport.png',
+			// '/images/products/logistics-system/dashboard.png',
+			// '/images/products/logistics-system/contact.png',
 		],
 		demoUrl: 'https://zephimpact.vercel.app',
 		featured: true,
@@ -147,14 +139,12 @@ export const projects: Project[] = [
 			'Creating an intuitive interface for complex logistics operations',
 			'Implementing secure client data handling and privacy measures',
 			'Designing for scalability as the company expands services',
-			'Integrating with potential third-party logistics APIs',
 		],
 
 		solutions: [
 			'Developed a clean, intuitive UI with Bootstrap for rapid prototyping',
 			'Implemented robust authentication and data encryption protocols',
 			'Designed modular architecture for easy feature addition',
-			'Created API-first approach for future third-party integrations',
 		],
 
 		lessons: [
@@ -166,11 +156,8 @@ export const projects: Project[] = [
 
 		keyFeatures: [
 			'Service showcase with detailed descriptions and pricing',
-			'Interactive transport route visualization',
-			'Client dashboard for shipment tracking',
 			'Contact management system',
 			'Responsive design for mobile field workers',
-			'Multilingual support for international clients',
 		],
 
 		technicalDetails: [
@@ -190,6 +177,8 @@ export const projects: Project[] = [
 					'Modular architecture allows for adding features like real-time tracking, analytics dashboards, and API integrations.',
 			},
 		],
+		status: 'completed',
+		complexity: 'medium',
 	},
 
 	{
@@ -214,10 +203,10 @@ export const projects: Project[] = [
 		],
 		coverImage: '/images/products/smart-waste/cover.png',
 		images: [
-			'/images/products/smart-waste/hardware.jpg',
-			'/images/products/smart-waste/dashboard.png',
-			'/images/products/smart-waste/mobile-app.png',
-			'/images/products/smart-waste/data-analytics.png',
+			// '/images/products/smart-waste/hardware.jpg',
+			// '/images/products/smart-waste/dashboard.png',
+			// '/images/products/smart-waste/mobile-app.png',
+			// '/images/products/smart-waste/data-analytics.png',
 		],
 		acknowledgement:
 			'Developed as a final-year academic project at Ghana Communication Technology University.',
@@ -251,7 +240,6 @@ export const projects: Project[] = [
 			'Real-time waste level monitoring with ultrasonic sensors',
 			'GPS tracking for bin locations and collection routes',
 			'Predictive analytics for waste collection scheduling',
-			'Mobile app for field workers',
 			'Admin dashboard with comprehensive analytics',
 			'Alert system for overflow bins',
 		],
@@ -273,6 +261,8 @@ export const projects: Project[] = [
 					'Real-time data aggregation and analysis. Machine learning models for predictive collection scheduling. Automated report generation.',
 			},
 		],
+		status: 'completed',
+		complexity: 'high',
 	},
 
 	{
@@ -289,15 +279,15 @@ export const projects: Project[] = [
 		stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Vercel'],
 		coverImage: '/images/products/portfolio/cover.png',
 		images: [
-			'/images/products/portfolio/home.png',
-			'/images/products/portfolio/projects.png',
-			'/images/products/portfolio/blog.png',
-			'/images/products/portfolio/contact.png',
+			// '/images/products/portfolio/home.png',
+			// '/images/products/portfolio/projects.png',
+			// '/images/products/portfolio/blog.png',
+			// '/images/products/portfolio/contact.png',
 		],
 		demoUrl: 'https://cosbydeveloper.vercel.app',
 		featured: false,
 		role: 'Designer & Developer',
-		timeline: '2 months (2024)',
+		timeline: '1 month (2024)',
 
 		challenges: [
 			'Creating a unique design that stands out while remaining professional',
@@ -327,7 +317,7 @@ export const projects: Project[] = [
 			'Blog integration with markdown support',
 			'Contact form with spam protection',
 			'Dark/light mode toggle',
-			'Performance optimized (90+ Lighthouse scores)',
+			'Performance optimized',
 		],
 
 		technicalDetails: [
@@ -347,86 +337,79 @@ export const projects: Project[] = [
 					'Image optimization, code splitting, and lazy loading. Static generation for pages where possible. Edge deployment for global performance.',
 			},
 		],
+		status: 'in progress',
+		complexity: 'medium',
 	},
 
-	// {
-	// 	slug: 'trading-system-research',
-	// 	title: 'Algorithmic Trading System (Research Phase)',
-	// 	category: {
-	// 		key: 'personal',
-	// 		label: 'Personal / Research',
-	// 	},
-	// 	summary:
-	// 		'Research and prototyping toward an automated, data-driven trading system.',
-	// 	description:
-	// 		'An ongoing personal research project exploring market data, trading logic, and system design for building automated trading tools, with long-term plans to integrate machine learning for decision support. The project focuses on understanding financial markets while developing robust technical infrastructure for data processing and analysis.',
-	// 	stack: [
-	// 		'Python',
-	// 		'Pandas',
-	// 		'NumPy',
-	// 		'FastAPI',
-	// 		'PostgreSQL',
-	// 		'Docker',
-	// 		'AWS',
-	// 	],
-	// 	coverImage: '/images/products/trading-system/cover.png',
-	// 	images: [
-	// 		'/images/products/trading-system/analysis.png',
-	// 		'/images/products/trading-system/data-pipeline.png',
-	// 		'/images/products/trading-system/backtesting.png',
-	// 		'/images/products/trading-system/dashboard.png',
-	// 	],
-	// 	demoUrl: 'https://tradingsystem.vercel.app',
-	// 	featured: false,
-	// 	role: 'Researcher & Developer',
-	// 	timeline: 'Ongoing since 2023',
+	{
+		slug: 'crypto-dash',
+		title: 'Crypto Dash',
+		category: {
+			key: 'course',
+			label: 'Academic / Course Project',
+		},
+		summary:
+			'A React dashboard for browsing cryptocurrency data with real-time charts.',
+		description:
+			'Crypto Dash is a cryptocurrency dashboard that displays real-time market data from the CoinGecko API. Users can browse top coins by market cap, filter and sort results, and view detailed price charts for individual cryptocurrencies.',
+		stack: ['React 19', 'React Router', 'Chart.js', 'Vite', 'JavaScript'],
+		coverImage: '/images/products/crypto-dash/cover.png',
+		images: [
+			// '/images/products/crypto-dash/home.png',
+			// '/images/products/crypto-dash/details.png',
+			// '/images/products/crypto-dash/chart.png',
+		],
+		acknowledgement:
+			'Developed as a part of the Modern React From The Beginning by Brad Traversy.',
+		demoUrl: 'https://cosby-crypto-dash.vercel.app',
+		featured: false,
+		role: 'Frontend Developer',
+		timeline: '2024',
 
-	// 	challenges: [
-	// 		'Processing and analyzing large volumes of financial data',
-	// 		'Developing reliable backtesting frameworks',
-	// 		'Implementing risk management strategies',
-	// 		'Ensuring system security and data integrity',
-	// 	],
+		challenges: [
+			'Handling API rate limits from CoinGecko',
+			'Displaying real-time price data with responsive charts',
+			'Implementing efficient filtering and sorting on the client side',
+		],
 
-	// 	solutions: [
-	// 		'Used Pandas and NumPy for efficient data manipulation',
-	// 		'Created modular backtesting engine with customizable strategies',
-	// 		'Implemented position sizing and stop-loss algorithms',
-	// 		'Developed secure API architecture with rate limiting',
-	// 	],
+		solutions: [
+			'Implemented page limit to manage API calls',
+			'Used Chart.js with date-fns adapter for responsive time-series charts',
+			'Created reusable filter and sort components with React state management',
+		],
 
-	// 	lessons: [
-	// 		'Importance of data quality in quantitative analysis',
-	// 		'Value of extensive backtesting before live deployment',
-	// 		'Benefits of modular system design for strategy iteration',
-	// 		'Need for comprehensive risk management from the start',
-	// 	],
+		lessons: [
+			'Importance of handling loading and error states in data-fetching apps',
+			'Working with third-party APIs',
+			'Building reusable UI components for filtering and sorting',
+		],
 
-	// 	keyFeatures: [
-	// 		'Real-time market data ingestion and processing',
-	// 		'Technical indicator library with 50+ indicators',
-	// 		'Backtesting engine with customizable parameters',
-	// 		'Risk management module with position sizing',
-	// 		'Performance analytics and reporting',
-	// 		'API for strategy integration',
-	// 	],
+		keyFeatures: [
+			'Browse top cryptocurrencies by market cap and more',
+			'Filter coins by name',
+			'Sort by various metrics',
+			'Interactive price charts with historical data',
+			'Responsive design for all devices',
+		],
 
-	// 	technicalDetails: [
-	// 		{
-	// 			title: 'Data Infrastructure',
-	// 			description:
-	// 				'Market data pipeline with cleaning, normalization, and storage. PostgreSQL with TimescaleDB for time-series data. Redis for caching frequently accessed data.',
-	// 		},
-	// 		{
-	// 			title: 'Analysis Engine',
-	// 			description:
-	// 				'Python-based analysis with Pandas and NumPy. Technical indicators implemented from first principles. Statistical analysis for strategy validation.',
-	// 		},
-	// 		{
-	// 			title: 'System Architecture',
-	// 			description:
-	// 				'Microservices architecture with FastAPI. Containerized deployment with Docker. Cloud infrastructure on AWS with auto-scaling.',
-	// 		},
-	// 	],
-	// },
+		technicalDetails: [
+			{
+				title: 'Frontend Architecture',
+				description:
+					'Built with React 19 and React Router (Declarative mode) for client-side navigation. Uses functional components with hooks for state management and side effects.',
+			},
+			{
+				title: 'Data Visualization',
+				description:
+					'Chart.js with react-chartjs-2 renders interactive price charts. The date-fns adapter handles time-series formatting for historical data.',
+			},
+			{
+				title: 'Build & Development',
+				description:
+					'Vite provides fast development builds with hot module replacement. ESLint ensures code quality and consistency.',
+			},
+		],
+		status: 'completed',
+		complexity: 'low',
+	},
 ];

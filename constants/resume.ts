@@ -3,7 +3,8 @@
 export const resumeData = {
 	personalInfo: {
 		name: 'Godfred Awusi',
-		title: 'Software Engineer • Backend-Focused • Founder, Cosby Technologies',
+		title:
+			'Software Engineer • Full-Stack Developer • Founder, Cosby Technologies',
 		location: 'Accra, Ghana',
 		phone: '+233 544 588 204',
 		email: 'awusigodfred225@gmail.com',
@@ -20,8 +21,7 @@ export const resumeData = {
 	summary: {
 		title: 'Professional Summary',
 		content: [
-			'High-performing Computer Science first class graduate and software engineer with a strong Python-centric backend focus, specializing in Django, React, Next.js, and the MERN stack for scalable web systems and AI-oriented applications. Experienced in building production-ready platforms, leading a personal software startup, and integrating modern frontend technologies with robust backend architectures.',
-			'Deeply motivated by problem-solving, applied machine learning, and long-term product thinking. Known for disciplined execution, continuous self-improvement, and the ability to translate ideas into reliable digital solutions.',
+			'High-performing Computer Science first-class graduate and software engineer with a strong full-stack experience in the MERN stack, experienced in building scalable, production-ready web systems. Currently transitioning toward a Python-focused backend, actively developing proficiency in Django for data-driven and AI-oriented applications. Founder of a personal software startup with hands-on experience integrating modern frontend technologies such as React and Next.js with well-structured backend architectures. Deeply motivated by problem-solving, applied machine learning, and long-term product thinking, and recognized for disciplined execution, continuous self-improvement, and the ability to translate ideas into reliable, real-world digital solutions.',
 		],
 	},
 
@@ -30,8 +30,8 @@ export const resumeData = {
 		technical: {
 			title: 'Technical Skills',
 			items: [
-				'Python, Django, Django REST Framework',
 				'Node.js, Express, RESTful API Design',
+				'Python, Django, Django REST Framework',
 				'React, Next.js, JavaScript (ES6+)',
 				'PostgreSQL, MongoDB, Database Design',
 				'Authentication & Authorization',

@@ -7,7 +7,7 @@ export const homeContent = {
 		greeting: "Hello, I'm",
 		imageUrl: '/images/profile.jpg',
 		tagline:
-			'I build scalable backend systems, modern web applications, and intelligent, data-driven software solutions, with a growing focus on AI/ML-powered systems and real-world impact.',
+			'I build scalable systems, modern web applications, and intelligent, data-driven software solutions, with a growing focus on AI/ML-powered systems and real-world impact.',
 		ctaPrimary: {
 			label: 'View resume',
 			href: '/resume',
@@ -20,17 +20,24 @@ export const homeContent = {
 
 	skills: {
 		intro:
-			'I work primarily as a backend-focused software engineer, with strong full-stack experience and a solid foundation in modern JavaScript and system design.',
+			'I work primarily as a full-stack developer with a solid foundation in modern JavaScript and system design.',
 		groups: [
 			{
-				title: 'Backend & APIs',
+				title: 'Backend & APIs (Python)',
+				status: 'Current',
+				statusLabel: 'Now Transitioned To & Mastering',
 				items: [
 					'Python (Django)',
-					'REST APIs',
-					'PostgreSQL (Prisma)',
+					'Django REST Framework',
+					'PostgreSQL',
 					'JWT Authentication',
-					'System Design',
 				],
+			},
+			{
+				title: 'Backend & APIs (JavaScript)',
+				status: 'Legacy',
+				statusLabel: 'Prior / On-Demand',
+				items: ['Node.js', 'Express.js', 'MongoDB (Atlas)', 'Mongoose'],
 			},
 			{
 				title: 'Frontend',
@@ -42,10 +49,7 @@ export const homeContent = {
 					'Responsive UI Design',
 				],
 			},
-			{
-				title: 'JavaScript Stack (Prior & On-Demand)',
-				items: ['Node.js', 'Express.js', 'MongoDB (Atlas)', 'Mongoose'],
-			},
+
 			{
 				title: 'Tools & Infrastructure',
 				items: [

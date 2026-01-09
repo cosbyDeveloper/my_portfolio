@@ -84,7 +84,7 @@ const BlogDetailsContent = ({ blog }: BlogDetailsContentProps) => {
 	};
 
 	return (
-		<main className='min-h-screen'>
+		<main className='min-h-screen blog-content'>
 			{/* Back Navigation */}
 			<div className='sticky top-4 z-20 flex justify-center'>
 				<Link
