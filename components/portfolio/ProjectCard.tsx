@@ -4,22 +4,10 @@
 import Card from '@/components/shared/Card';
 import Link from 'next/link';
 import { FaExternalLinkAlt, FaGithub } from 'react-icons/fa';
+import { Project } from '@/lib/types';
 
 interface ProjectCardProps {
-	project: {
-		slug: string;
-		title: string;
-		summary: string;
-		coverImage?: string;
-		status?: string;
-		category: {
-			key: string;
-			label: string;
-		};
-		stack: string[];
-		demoUrl?: string;
-		repoUrl?: string;
-	};
+	project: Project;
 	index?: number;
 	layout?: 'grid' | 'list';
 	showCategory?: boolean;

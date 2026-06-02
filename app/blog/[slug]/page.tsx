@@ -1,21 +1,21 @@
 // app/blog/[slug]/page.tsx (Server Component)
 import { notFound } from 'next/navigation';
-import { blogs } from '@/constants/blogs';
+import { blogsApi } from '@/lib/api/client';
 import BlogDetailsContent from '@/components/blog/BlogDetailsContent';
 
 interface PageProps {
-	params: Promise<{
-		slug: string;
-	}>;
+params: Promise<{
+slug: string;
+}>;
 }
 
 export default async function BlogDetails({ params }: PageProps) {
-	const { slug } = await params;
-	const blog = blogs.find((b) => b.slug === slug);
+const { slug } = await params;
+const blog = await blogsApi.getBySlug(slug);
 
-	if (!blog) {
-		notFound();
-	}
+if (!blog) {
+notFound();
+}
 
-	return <BlogDetailsContent blog={blog} />;
+return <BlogDetailsContent blog={blog} />;
 }

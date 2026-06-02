@@ -3,13 +3,13 @@
 
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { BlogPost } from '@/constants/blogs';
+import { BlogPost, FilterOption } from '@/lib/types';
 import BlogCard from '@/components/blog/BlogCard';
 import Pagination from '@/components/shared/Pagination';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 interface BlogContentProps {
-	filters: { key: string; label: string }[];
+	filters: FilterOption[];
 	initialFilter: string;
 	initialPage: number;
 	itemsPerPage: number;

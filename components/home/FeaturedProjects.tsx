@@ -3,15 +3,31 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { projects } from '@/constants/projects';
+import { projectsApi } from '@/lib/api/client';
 import { homeContent } from '@/constants/home';
 import ProjectCard from '../portfolio/ProjectCard';
+import { useEffect, useState } from 'react';
+import { Project } from '@/lib/types';
 
 const FeaturedProjects = () => {
 	const { featuredProjects } = homeContent;
-	const featuredProjectsData = projects
-		.filter((project) => project.featured)
-		.slice(0, featuredProjects.limit);
+	const [featuredProjectsData, setFeaturedProjectsData] = useState<Project[]>([]);
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		const loadFeaturedProjects = async () => {
+			try {
+				const projects = await projectsApi.listFeatured();
+				setFeaturedProjectsData(projects.slice(0, featuredProjects.limit));
+			} catch (error) {
+				console.error('Failed to load featured projects:', error);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		loadFeaturedProjects();
+	}, [featuredProjects.limit]);
 
 	return (
 		<section

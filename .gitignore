@@ -42,7 +42,6 @@ next-env.d.ts
 
 
 # ================
-/app/dashboard/
-/lib/
-/prisma/
-/app/api/
+# /app/api/
+# /app/dashboard/
+# /lib/

@@ -1,11 +1,12 @@
 // components/portfolio/ProjectDetailsContent.tsx (Client Component)
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Project, projects } from '@/constants/projects';
+import { Project } from '@/lib/types';
+import { projectsApi } from '@/lib/api/client';
 import Lightbox from '@/components/shared/Lightbox';
 import {
 	FaGithub,
@@ -36,6 +37,21 @@ const ProjectDetailsContent = ({
 }: ProjectDetailsContentProps) => {
 	const [lightboxOpen, setLightboxOpen] = useState(false);
 	const [lightboxIndex, setLightboxIndex] = useState(0);
+	const [allProjects, setAllProjects] = useState<Project[]>([]);
+
+	useEffect(() => {
+		// Load all projects for related projects section
+		const loadProjects = async () => {
+			try {
+				const projects = await projectsApi.listAll();
+				setAllProjects(projects);
+			} catch (error) {
+				console.error('Failed to load projects:', error);
+			}
+		};
+
+		loadProjects();
+	}, []);
 
 	const openLightbox = (index: number) => {
 		setLightboxIndex(index);
@@ -386,6 +402,7 @@ const ProjectDetailsContent = ({
 							<RelatedProjects
 								currentSlug={project.slug}
 								category={project.category.key}
+								allProjects={allProjects}
 							/>
 						</div>
 					</div>
@@ -407,11 +424,13 @@ const ProjectDetailsContent = ({
 function RelatedProjects({
 	currentSlug,
 	category,
+	allProjects,
 }: {
 	currentSlug: string;
 	category: string;
+	allProjects: Project[];
 }) {
-	const relatedProjects = projects
+	const relatedProjects = allProjects
 		.filter(
 			(p: Project) => p.slug !== currentSlug && p.category.key === category,
 		)

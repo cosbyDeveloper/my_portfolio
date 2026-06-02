@@ -3,7 +3,8 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { BlogPost, blogs } from '@/constants/blogs';
+import { BlogPost } from '@/lib/types';
+import { blogsApi } from '@/lib/api/client';
 import TableOfContents from './TableOfContents';
 import BlogContentRenderer from './BlogContentRenderer';
 import {
@@ -30,6 +31,21 @@ const BlogDetailsContent = ({ blog }: BlogDetailsContentProps) => {
 		Array<{ id: string; text: string; level: number }>
 	>([]);
 	const [isTocOpen, setIsTocOpen] = useState(false);
+	const [allBlogs, setAllBlogs] = useState<BlogPost[]>([]);
+
+	useEffect(() => {
+		// Load all blogs for related articles section
+		const loadBlogs = async () => {
+			try {
+				const blogs = await blogsApi.listAll();
+				setAllBlogs(blogs);
+			} catch (error) {
+				console.error('Failed to load blogs:', error);
+			}
+		};
+
+		loadBlogs();
+	}, []);
 
 	useEffect(() => {
 		// Extract headings from content for table of contents
@@ -364,7 +380,7 @@ const BlogDetailsContent = ({ blog }: BlogDetailsContentProps) => {
 
 							{/* Related Articles */}
 							<div className='not-prose mt-12'>
-								<RelatedArticles currentSlug={blog.slug} tags={blog.tags} />
+								<RelatedArticles currentSlug={blog.slug} tags={blog.tags} allBlogs={allBlogs} />
 							</div>
 						</div>
 					</div>
@@ -378,11 +394,13 @@ const BlogDetailsContent = ({ blog }: BlogDetailsContentProps) => {
 function RelatedArticles({
 	currentSlug,
 	tags,
+	allBlogs,
 }: {
 	currentSlug: string;
 	tags: string[];
+	allBlogs: BlogPost[];
 }) {
-	const relatedArticles = blogs
+	const relatedArticles = allBlogs
 		.filter(
 			(b: BlogPost) =>
 				b.slug !== currentSlug &&

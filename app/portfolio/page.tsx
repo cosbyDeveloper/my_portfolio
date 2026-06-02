@@ -1,6 +1,6 @@
 // app/portfolio/page.tsx
-import { projects } from '@/constants/projects';
 import PortfolioContent from '@/components/portfolio/PortfolioContent';
+import { projectsApi } from '@/lib/api/client';
 
 interface PortfolioPageProps {
 	searchParams?: {
@@ -23,16 +23,9 @@ const PortfolioPage = async ({ searchParams }: PortfolioPageProps) => {
 	const page = parseInt(pageParam, 10);
 	const itemsPerPage = 9;
 
-	// Get unique categories
-	const categories = [
-		{ key: 'all', label: 'All Projects' },
-		...Array.from(new Set(projects.map((project) => project.category.key))).map(
-			(key) => {
-				const project = projects.find((p) => p.category.key === key);
-				return { key, label: project?.category.label || key };
-			},
-		),
-	];
+	// Fetch data through API layer
+	const categories = await projectsApi.getCategories();
+	const allProjects = await projectsApi.listAll();
 
 	return (
 		<PortfolioContent
@@ -40,7 +33,7 @@ const PortfolioPage = async ({ searchParams }: PortfolioPageProps) => {
 			initialCategory={category}
 			initialPage={page}
 			itemsPerPage={itemsPerPage}
-			allProjects={projects}
+			allProjects={allProjects}
 		/>
 	);
 };

@@ -3,18 +3,10 @@
 
 import Card from '@/components/shared/Card';
 import { FaCalendarAlt, FaClock, FaUser } from 'react-icons/fa';
+import { BlogPost } from '@/lib/types';
 
 interface BlogCardProps {
-	post: {
-		slug: string;
-		title: string;
-		excerpt: string;
-		image?: string;
-		date: string;
-		author?: string;
-		readTime?: string;
-		tags: string[];
-	};
+	post: BlogPost;
 	index?: number;
 	layout?: 'grid' | 'list';
 	showMeta?: boolean;

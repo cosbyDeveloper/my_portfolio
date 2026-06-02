@@ -3,15 +3,31 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { blogs } from '@/constants/blogs';
+import { blogsApi } from '@/lib/api/client';
 import { homeContent } from '@/constants/home';
 import BlogCard from '@/components/blog/BlogCard';
+import { useEffect, useState } from 'react';
+import { BlogPost } from '@/lib/types';
 
 const FeaturedBlogs = () => {
 	const { featuredBlogs } = homeContent;
-	const featured = blogs
-		.filter((b) => b.featured)
-		.slice(0, featuredBlogs.limit);
+	const [featured, setFeatured] = useState<BlogPost[]>([]);
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		const loadFeaturedBlogs = async () => {
+			try {
+				const blogs = await blogsApi.listFeatured();
+				setFeatured(blogs.slice(0, featuredBlogs.limit));
+			} catch (error) {
+				console.error('Failed to load featured blogs:', error);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		loadFeaturedBlogs();
+	}, [featuredBlogs.limit]);
 
 	return (
 		<section

@@ -7,10 +7,10 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import ProjectCard from '@/components/portfolio/ProjectCard';
 import Pagination from '@/components/shared/Pagination';
-import { Project } from '@/constants/projects';
+import { Project, FilterOption } from '@/lib/types';
 
 interface PortfolioContentProps {
-	categories: { key: string; label: string }[];
+	categories: FilterOption[];
 	initialCategory: string;
 	initialPage: number;
 	itemsPerPage: number;
