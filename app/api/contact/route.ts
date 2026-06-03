@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
     await connectDB();
 
     const body = await request.json();
-    const { name, email, subject, message } = body;
+    const { name, email, subject, message, phone } = body;
 
     // Validation
     if (!name || !email || !subject || !message) {
@@ -20,9 +20,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Split name into firstName and lastName
+    const nameParts = name.trim().split(' ');
+    const firstName = nameParts[0];
+    const lastName = nameParts.slice(1).join(' ') || undefined;
+
     const newMessage = new Message({
-      name,
+      firstName,
+      lastName,
       email,
+      phone,
       subject,
       message,
     });
