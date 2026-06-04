@@ -150,9 +150,9 @@ const GetInTouch = ({ showMore = true }) => {
 											: 'bg-red-500/10 border border-red-500/30 text-red-600'
 									}`}>
 									{feedback.type === 'success' ? (
-										<FaCheck className='w-5 h-5 flex-shrink-0' />
+										<FaCheck className='w-5 h-5 shrink-0' />
 									) : (
-										<FaExclamationCircle className='w-5 h-5 flex-shrink-0' />
+										<FaExclamationCircle className='w-5 h-5 shrink-0' />
 									)}
 									<p className='text-sm'>{feedback.message}</p>
 								</motion.div>

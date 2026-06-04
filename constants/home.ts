@@ -79,6 +79,12 @@ export const homeContent = {
 			href: '/about',
 		},
 	},
+	certifications: {
+		title: 'Certifications & Credentials',
+		intro:
+			'Verified expertise across the AI/ML engineering stack — from foundational deep learning to production cloud deployment.',
+		items: [],
+	},
 	experienceEducation: {
 		title: 'Experience & Education',
 		intro:
@@ -113,6 +119,25 @@ export const homeContent = {
 			label: 'View full resume',
 			href: '/resume',
 		},
+	},
+
+	research: {
+		title: 'Research',
+		intro:
+			'My research sits at the intersection of machine learning systems and real-world deployment — focused on making intelligent systems reliable, scalable, and impactful beyond the lab.',
+		publications: [],
+		areas: [],
+		cta: {
+			label: 'View all research',
+			href: '/research',
+		},
+	},
+
+	communityPresence: {
+		title: 'Community & Open Source',
+		intro:
+			'Knowledge is not kept — it is shared. Active across the AI/ML community through writing, open source, and public work.',
+		items: [],
 	},
 
 	featuredProjects: {
