@@ -2,6 +2,12 @@ import { NextRequest } from 'next/server';
 import { connectDB } from '@/lib/db/mongoose';
 import { Blog } from '@/lib/models';
 
+type BlogListQuery = {
+  published: boolean;
+  tags?: { $in: string[] };
+  featured?: boolean;
+};
+
 export async function GET(request: NextRequest) {
   try {
     await connectDB();
@@ -10,7 +16,7 @@ export async function GET(request: NextRequest) {
     const tag = searchParams.get('tag');
     const featured = searchParams.get('featured');
 
-    let query: any = {};
+    const query: BlogListQuery = { published: true };
 
     if (tag) {
       query.tags = { $in: [tag] };
@@ -20,7 +26,7 @@ export async function GET(request: NextRequest) {
       query.featured = true;
     }
 
-    const blogs = await Blog.find(query).sort({ createdAt: -1 });
+    const blogs = await Blog.find(query).sort({ date: -1, createdAt: -1 });
 
     return Response.json(
       {

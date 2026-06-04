@@ -12,7 +12,26 @@
 
 import { Project, BlogPost, Message } from '@/lib/types';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+type ApiResponse<T> = {
+  success: boolean;
+  data: T;
+};
+
+function getApiBaseUrl() {
+  if (typeof window !== 'undefined') {
+    return '';
+  }
+
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    return process.env.NEXT_PUBLIC_API_URL;
+  }
+
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+
+  return 'http://localhost:3000';
+}
 
 /**
  * Generic fetch wrapper with error handling
@@ -22,12 +41,15 @@ async function fetchAPI<T>(
   options?: RequestInit,
 ): Promise<T> {
   try {
-    const url = endpoint.startsWith('http') ? endpoint : `${API_URL}${endpoint}`;
+    const url = endpoint.startsWith('http')
+      ? endpoint
+      : `${getApiBaseUrl()}${endpoint}`;
     const response = await fetch(url, {
       headers: {
         'Content-Type': 'application/json',
         ...options?.headers,
       },
+      cache: 'no-store',
       ...options,
     });
 
@@ -37,7 +59,7 @@ async function fetchAPI<T>(
     }
 
     const data = await response.json();
-    return data.data || data;
+    return data;
   } catch (error) {
     console.error(`API call failed: ${endpoint}`, error);
     throw error;
@@ -55,7 +77,7 @@ export const projectsApi = {
    */
   async listAll(): Promise<Project[]> {
     try {
-      const response = await fetchAPI<{ success: boolean; data: any[] }>('/api/projects');
+      const response = await fetchAPI<ApiResponse<Project[]>>('/api/projects');
       return response.data || [];
     } catch (error) {
       console.error('Failed to fetch projects:', error);
@@ -69,7 +91,7 @@ export const projectsApi = {
    */
   async listFeatured(): Promise<Project[]> {
     try {
-      const response = await fetchAPI<{ success: boolean; data: any[] }>('/api/projects?featured=true');
+      const response = await fetchAPI<ApiResponse<Project[]>>('/api/projects?featured=true');
       return response.data || [];
     } catch (error) {
       console.error('Failed to fetch featured projects:', error);
@@ -84,7 +106,7 @@ export const projectsApi = {
    */
   async getBySlug(slug: string): Promise<Project | null> {
     try {
-      const response = await fetchAPI<{ success: boolean; data: any }>(`/api/projects/${slug}`);
+      const response = await fetchAPI<ApiResponse<Project>>(`/api/projects/${slug}`);
       return response.data || null;
     } catch (error) {
       console.error(`Failed to fetch project ${slug}:`, error);
@@ -132,7 +154,7 @@ export const blogsApi = {
    */
   async listAll(): Promise<BlogPost[]> {
     try {
-      const response = await fetchAPI<{ success: boolean; data: any[] }>('/api/blogs');
+      const response = await fetchAPI<ApiResponse<BlogPost[]>>('/api/blogs');
       return response.data || [];
     } catch (error) {
       console.error('Failed to fetch blogs:', error);
@@ -146,7 +168,7 @@ export const blogsApi = {
    */
   async listFeatured(): Promise<BlogPost[]> {
     try {
-      const response = await fetchAPI<{ success: boolean; data: any[] }>('/api/blogs?featured=true');
+      const response = await fetchAPI<ApiResponse<BlogPost[]>>('/api/blogs?featured=true');
       return response.data || [];
     } catch (error) {
       console.error('Failed to fetch featured blogs:', error);
@@ -161,7 +183,7 @@ export const blogsApi = {
    */
   async getBySlug(slug: string): Promise<BlogPost | null> {
     try {
-      const response = await fetchAPI<{ success: boolean; data: any }>(`/api/blogs/${slug}`);
+      const response = await fetchAPI<ApiResponse<BlogPost>>(`/api/blogs/${slug}`);
       return response.data || null;
     } catch (error) {
       console.error(`Failed to fetch blog ${slug}:`, error);
@@ -205,7 +227,7 @@ export const contactApi = {
    */
   async submitMessage(message: Message): Promise<{ success: boolean; id?: string }> {
     try {
-      const response = await fetchAPI<{ success: boolean; data: any }>('/api/contact', {
+      const response = await fetchAPI<ApiResponse<{ _id?: string }>>('/api/contact', {
         method: 'POST',
         body: JSON.stringify(message),
       });

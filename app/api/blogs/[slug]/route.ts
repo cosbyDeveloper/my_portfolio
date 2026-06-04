@@ -10,7 +10,7 @@ export async function GET(
     const { slug } = await params;
     await connectDB();
 
-    const blog = await Blog.findOne({ slug });
+    const blog = await Blog.findOne({ slug, published: true });
 
     if (!blog) {
       return Response.json(

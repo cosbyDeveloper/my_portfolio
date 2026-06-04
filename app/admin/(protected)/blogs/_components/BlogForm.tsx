@@ -15,12 +15,20 @@ import {
 	FaStar,
 	FaSpinner,
 	FaBlog,
+	FaSearch,
+	FaCode,
 } from 'react-icons/fa';
 import { BlogPost } from '@/lib/types';
 
 interface BlogFormProps {
 	initialData?: BlogPost;
 	isEditing?: boolean;
+}
+
+function toDateInputValue(value?: string | Date) {
+	if (!value) return '';
+	if (value instanceof Date) return value.toISOString().split('T')[0];
+	return value.includes('T') ? value.split('T')[0] : value;
 }
 
 export default function BlogForm({ initialData, isEditing }: BlogFormProps) {
@@ -33,16 +41,30 @@ export default function BlogForm({ initialData, isEditing }: BlogFormProps) {
 		title: initialData?.title || '',
 		excerpt: initialData?.excerpt || '',
 		content: initialData?.content || '',
-		date: initialData?.date || new Date().toISOString().split('T')[0],
+		htmlContent: initialData?.htmlContent || '',
+		jsonContent: initialData?.jsonContent
+			? JSON.stringify(initialData.jsonContent, null, 2)
+			: '',
+		date:
+			toDateInputValue(initialData?.date) ||
+			new Date().toISOString().split('T')[0],
 		tags: initialData?.tags?.join(', ') || '',
 		image: initialData?.image || '',
-		author: initialData?.author || '',
+		author: initialData?.author || 'Godfred Awusi',
 		readTime: initialData?.readTime || '',
 		featured: initialData?.featured || false,
+		metaDescription: initialData?.metaDescription || '',
+		category: initialData?.category || '',
+		published: initialData?.published ?? true,
+		seoTitle: initialData?.seoTitle || '',
+		seoDescription: initialData?.seoDescription || '',
+		updatedAt: toDateInputValue(initialData?.updatedAt),
 	});
 
 	const handleChange = (
-		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+		e: React.ChangeEvent<
+			HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+		>,
 	) => {
 		const { name, value, type } = e.target;
 		if (type === 'checkbox') {
@@ -87,12 +109,39 @@ export default function BlogForm({ initialData, isEditing }: BlogFormProps) {
 		setIsLoading(true);
 
 		try {
+			let parsedJsonContent: unknown = undefined;
+			if (formData.jsonContent.trim()) {
+				try {
+					parsedJsonContent = JSON.parse(formData.jsonContent);
+				} catch {
+					setError('JSON content must be valid JSON');
+					setIsLoading(false);
+					return;
+				}
+			}
+
 			const payload = {
-				...formData,
+				slug: formData.slug.trim().toLowerCase(),
+				title: formData.title.trim(),
+				excerpt: formData.excerpt.trim(),
+				content: formData.content.trim() || formData.htmlContent.trim(),
+				htmlContent: formData.htmlContent.trim(),
+				jsonContent: parsedJsonContent,
+				date: formData.date,
 				tags: formData.tags
 					.split(',')
 					.map((t) => t.trim())
 					.filter(Boolean),
+				image: formData.image.trim(),
+				author: formData.author.trim(),
+				readTime: formData.readTime.trim(),
+				featured: formData.featured,
+				metaDescription: formData.metaDescription.trim(),
+				category: formData.category.trim(),
+				published: formData.published,
+				seoTitle: formData.seoTitle.trim(),
+				seoDescription: formData.seoDescription.trim(),
+				updatedAt: formData.updatedAt,
 			};
 
 			const method = isEditing ? 'PUT' : 'POST';
@@ -113,7 +162,7 @@ export default function BlogForm({ initialData, isEditing }: BlogFormProps) {
 				router.push('/admin/blogs');
 				router.refresh();
 			} else {
-				setError(data.error || 'Failed to save blog');
+				setError(data.message || data.error || 'Failed to save blog');
 			}
 		} catch (err) {
 			setError('An error occurred');
@@ -231,13 +280,15 @@ export default function BlogForm({ initialData, isEditing }: BlogFormProps) {
 					{/* Read Time */}
 					<div>
 						<label className='block text-sm font-medium mb-2'>
-							<FaClock className='inline w-4 h-4 mr-1' /> Read Time
+							<FaClock className='inline w-4 h-4 mr-1' /> Read Time{' '}
+							<span className='text-red-500'>*</span>
 						</label>
 						<input
 							type='text'
 							name='readTime'
 							value={formData.readTime}
 							onChange={handleChange}
+							required
 							className='w-full px-4 py-2 rounded-xl border border-default bg-background focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/20 transition-all'
 							placeholder='5 min read'
 						/>
@@ -246,15 +297,32 @@ export default function BlogForm({ initialData, isEditing }: BlogFormProps) {
 					{/* Author */}
 					<div>
 						<label className='block text-sm font-medium mb-2'>
-							<FaUser className='inline w-4 h-4 mr-1' /> Author
+							<FaUser className='inline w-4 h-4 mr-1' /> Author{' '}
+							<span className='text-red-500'>*</span>
 						</label>
 						<input
 							type='text'
 							name='author'
 							value={formData.author}
 							onChange={handleChange}
+							required
 							className='w-full px-4 py-2 rounded-xl border border-default bg-background focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/20 transition-all'
 							placeholder='Author Name'
+						/>
+					</div>
+
+					{/* Category */}
+					<div>
+						<label className='block text-sm font-medium mb-2'>
+							<FaTags className='inline w-4 h-4 mr-1' /> Category
+						</label>
+						<input
+							type='text'
+							name='category'
+							value={formData.category}
+							onChange={handleChange}
+							className='w-full px-4 py-2 rounded-xl border border-default bg-background focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/20 transition-all'
+							placeholder='Engineering'
 						/>
 					</div>
 
@@ -273,6 +341,23 @@ export default function BlogForm({ initialData, isEditing }: BlogFormProps) {
 							/>
 							<span className='text-sm text-muted-foreground'>
 								Mark as featured blog
+							</span>
+						</label>
+					</div>
+
+					{/* Published */}
+					<div>
+						<label className='block text-sm font-medium mb-2'>Published</label>
+						<label className='flex items-center gap-3 cursor-pointer'>
+							<input
+								type='checkbox'
+								name='published'
+								checked={formData.published}
+								onChange={handleChange}
+								className='w-5 h-5 rounded border-default text-secondary focus:ring-secondary/20'
+							/>
+							<span className='text-sm text-muted-foreground'>
+								Show this post publicly
 							</span>
 						</label>
 					</div>
@@ -362,8 +447,104 @@ export default function BlogForm({ initialData, isEditing }: BlogFormProps) {
 						placeholder='Blog content (markdown supported)...'
 					/>
 					<p className='text-xs text-muted-foreground mt-2'>
-						Markdown formatting is supported
+						HTML formatting is supported
 					</p>
+				</div>
+
+				{/* HTML Content */}
+				<div className='mt-6'>
+					<label className='block text-sm font-medium mb-2'>
+						<FaCode className='inline w-4 h-4 mr-1' /> HTML Content
+					</label>
+					<textarea
+						name='htmlContent'
+						value={formData.htmlContent}
+						onChange={handleChange}
+						rows={6}
+						className='w-full px-4 py-2 rounded-xl border border-default bg-background focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/20 transition-all font-mono text-sm resize-y'
+						placeholder='Optional rendered HTML content'
+					/>
+				</div>
+
+				{/* JSON Content */}
+				<div className='mt-6'>
+					<label className='block text-sm font-medium mb-2'>
+						<FaCode className='inline w-4 h-4 mr-1' /> JSON Content
+					</label>
+					<textarea
+						name='jsonContent'
+						value={formData.jsonContent}
+						onChange={handleChange}
+						rows={6}
+						className='w-full px-4 py-2 rounded-xl border border-default bg-background focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/20 transition-all font-mono text-sm resize-y'
+						placeholder='Optional structured editor JSON'
+					/>
+				</div>
+
+				{/* SEO */}
+				<div className='mt-6 pt-6 border-t border-default'>
+					<h2 className='text-lg font-semibold mb-4 flex items-center gap-2'>
+						<FaSearch className='w-4 h-4 text-secondary' />
+						<span>SEO & Metadata</span>
+					</h2>
+					<div className='space-y-6'>
+						<div>
+							<label className='block text-sm font-medium mb-2'>
+								Meta Description
+							</label>
+							<textarea
+								name='metaDescription'
+								value={formData.metaDescription}
+								onChange={handleChange}
+								rows={3}
+								className='w-full px-4 py-2 rounded-xl border border-default bg-background focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/20 transition-all resize-none'
+								placeholder='Short search/social description'
+							/>
+						</div>
+
+						<div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+							<div>
+								<label className='block text-sm font-medium mb-2'>
+									SEO Title
+								</label>
+								<input
+									type='text'
+									name='seoTitle'
+									value={formData.seoTitle}
+									onChange={handleChange}
+									className='w-full px-4 py-2 rounded-xl border border-default bg-background focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/20 transition-all'
+									placeholder='Optional SEO title'
+								/>
+							</div>
+
+							<div>
+								<label className='block text-sm font-medium mb-2'>
+									Updated At
+								</label>
+								<input
+									type='date'
+									name='updatedAt'
+									value={formData.updatedAt}
+									onChange={handleChange}
+									className='w-full px-4 py-2 rounded-xl border border-default bg-background focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/20 transition-all'
+								/>
+							</div>
+						</div>
+
+						<div>
+							<label className='block text-sm font-medium mb-2'>
+								SEO Description
+							</label>
+							<textarea
+								name='seoDescription'
+								value={formData.seoDescription}
+								onChange={handleChange}
+								rows={3}
+								className='w-full px-4 py-2 rounded-xl border border-default bg-background focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/20 transition-all resize-none'
+								placeholder='Optional SEO-specific description'
+							/>
+						</div>
+					</div>
 				</div>
 			</div>
 		</motion.form>

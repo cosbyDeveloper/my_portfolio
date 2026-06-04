@@ -58,6 +58,11 @@ const ProjectDetailsContent = ({
 		setLightboxOpen(true);
 	};
 
+	const hasKeyFeatures = Boolean(project.keyFeatures?.length);
+	const hasTechnicalDetails = Boolean(project.technicalDetails?.length);
+	const hasChallenges = Boolean(project.challenges?.length);
+	const hasSolutions = Boolean(project.solutions?.length);
+
 	return (
 		<main className='min-h-screen'>
 			{/* Back Navigation */}
@@ -87,15 +92,22 @@ const ProjectDetailsContent = ({
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.6 }}
 						className='mb-12'>
-						{/* Category & Date */}
+						{/* Category & Timeline */}
 						<div className='flex flex-wrap items-center gap-4 mb-6'>
 							<span className='px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium'>
 								{project.category.label}
 							</span>
-							<div className='flex items-center gap-2 text-sm text-muted-foreground'>
-								<FaCalendarAlt className='w-3 h-3' />
-								<span>2024</span>
-							</div>
+							{project.timeline && (
+								<div className='flex items-center gap-2 text-sm text-muted-foreground'>
+									<FaCalendarAlt className='w-3 h-3' />
+									<span>{project.timeline}</span>
+								</div>
+							)}
+							{project.featured && (
+								<span className='px-3 py-1 rounded-full bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 text-xs font-medium'>
+									Featured
+								</span>
+							)}
 						</div>
 
 						{/* Title */}
@@ -176,6 +188,30 @@ const ProjectDetailsContent = ({
 							</motion.section>
 
 							{/* Key Features */}
+							{hasKeyFeatures && (
+								<motion.section
+									initial={{ opacity: 0, y: 20 }}
+									whileInView={{ opacity: 1, y: 0 }}
+									viewport={{ once: true }}
+									className='mb-12'>
+									<h2 className='text-2xl font-semibold mb-6 flex items-center gap-3'>
+										<FaCheckCircle className='text-primary' />
+										<span>Key Features</span>
+									</h2>
+									<div className='grid md:grid-cols-2 gap-4'>
+										{project.keyFeatures?.map((feature, index) => (
+											<div
+												key={index}
+												className='flex items-start gap-3 rounded-xl border border-default bg-muted/30 p-4'>
+												<FaCheckCircle className='mt-1 text-primary shrink-0' />
+												<span className='text-muted-foreground'>{feature}</span>
+											</div>
+										))}
+									</div>
+								</motion.section>
+							)}
+
+							{/* Key Features */}
 							<motion.section
 								initial={{ opacity: 0, y: 20 }}
 								whileInView={{ opacity: 1, y: 0 }}
@@ -202,39 +238,73 @@ const ProjectDetailsContent = ({
 										</div>
 									</div>
 
+									{/* Technical Details */}
+									{hasTechnicalDetails && (
+										<div>
+											<h3 className='text-lg font-semibold mb-3 flex items-center gap-2'>
+												<FaTools className='text-primary' />
+												<span>Architecture Notes</span>
+											</h3>
+											<div className='space-y-4'>
+												{project.technicalDetails?.map((detail, index) => (
+													<div
+														key={index}
+														className='rounded-xl border border-default bg-muted/30 p-5'>
+														<h4 className='font-semibold mb-2'>
+															{detail.title}
+														</h4>
+														{detail.description && (
+															<p className='text-muted-foreground leading-relaxed'>
+																{detail.description}
+															</p>
+														)}
+													</div>
+												))}
+											</div>
+										</div>
+									)}
+
 									{/* Challenges & Solutions */}
-									{project.challenges && project.solutions && (
+									{(hasChallenges || hasSolutions) && (
 										<div className='grid md:grid-cols-2 gap-6'>
-											<div>
-												<h4 className='font-semibold mb-3 text-primary'>
-													Challenges
-												</h4>
-												<ul className='space-y-2'>
-													{project.challenges.map((challenge, index) => (
-														<li key={index} className='flex items-start gap-2'>
-															<span className='text-red-500 mt-1'>•</span>
-															<span className='text-muted-foreground'>
-																{challenge}
-															</span>
-														</li>
-													))}
-												</ul>
-											</div>
-											<div>
-												<h4 className='font-semibold mb-3 text-green-500'>
-													Solutions
-												</h4>
-												<ul className='space-y-2'>
-													{project.solutions.map((solution, index) => (
-														<li key={index} className='flex items-start gap-2'>
-															<span className='text-green-500 mt-1'>✓</span>
-															<span className='text-muted-foreground'>
-																{solution}
-															</span>
-														</li>
-													))}
-												</ul>
-											</div>
+											{hasChallenges && (
+												<div>
+													<h4 className='font-semibold mb-3 text-primary'>
+														Challenges
+													</h4>
+													<ul className='space-y-2'>
+														{project.challenges?.map((challenge, index) => (
+															<li
+																key={index}
+																className='flex items-start gap-2'>
+																<span className='text-red-500 mt-1'>•</span>
+																<span className='text-muted-foreground'>
+																	{challenge}
+																</span>
+															</li>
+														))}
+													</ul>
+												</div>
+											)}
+											{hasSolutions && (
+												<div>
+													<h4 className='font-semibold mb-3 text-green-500'>
+														Solutions
+													</h4>
+													<ul className='space-y-2'>
+														{project.solutions?.map((solution, index) => (
+															<li
+																key={index}
+																className='flex items-start gap-2'>
+																<span className='text-green-500 mt-1'>✓</span>
+																<span className='text-muted-foreground'>
+																	{solution}
+																</span>
+															</li>
+														))}
+													</ul>
+												</div>
+											)}
 										</div>
 									)}
 								</div>
@@ -366,6 +436,22 @@ const ProjectDetailsContent = ({
 											<span className='text-foreground'>{project.status}</span>
 										</div>
 									</div>
+									{project.role && (
+										<div>
+											<h4 className='text-sm font-medium text-muted-foreground mb-1'>
+												Role
+											</h4>
+											<p className='text-foreground'>{project.role}</p>
+										</div>
+									)}
+									{project.timeline && (
+										<div>
+											<h4 className='text-sm font-medium text-muted-foreground mb-1'>
+												Timeline
+											</h4>
+											<p className='text-foreground'>{project.timeline}</p>
+										</div>
+									)}
 									<div>
 										<h4 className='text-sm font-medium text-muted-foreground mb-1'>
 											Type

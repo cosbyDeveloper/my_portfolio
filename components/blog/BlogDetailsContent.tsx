@@ -2,6 +2,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { BlogPost } from '@/lib/types';
 import { blogsApi } from '@/lib/api/client';
@@ -19,6 +20,8 @@ import {
 	FaRegComment,
 	FaChevronDown,
 	FaChevronUp,
+	FaStar,
+	FaSearch,
 } from 'react-icons/fa';
 import '@/styles/blog.css';
 
@@ -32,6 +35,7 @@ const BlogDetailsContent = ({ blog }: BlogDetailsContentProps) => {
 	>([]);
 	const [isTocOpen, setIsTocOpen] = useState(false);
 	const [allBlogs, setAllBlogs] = useState<BlogPost[]>([]);
+	const contentToRender = blog.htmlContent || blog.content;
 
 	useEffect(() => {
 		// Load all blogs for related articles section
@@ -144,6 +148,17 @@ const BlogDetailsContent = ({ blog }: BlogDetailsContentProps) => {
 								<FaUser className='w-3 h-3' />
 								<span>By {blog.author}</span>
 							</div>
+							{blog.category && (
+								<span className='px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium'>
+									{blog.category}
+								</span>
+							)}
+							{blog.featured && (
+								<span className='inline-flex items-center gap-1 px-3 py-1 rounded-full bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 text-xs font-medium'>
+									<FaStar className='w-3 h-3' />
+									<span>Featured</span>
+								</span>
+							)}
 						</div>
 
 						{/* Title */}
@@ -155,6 +170,18 @@ const BlogDetailsContent = ({ blog }: BlogDetailsContentProps) => {
 						<p className='text-xl text-muted-foreground mb-8 leading-relaxed'>
 							{blog.excerpt}
 						</p>
+
+						{blog.image && (
+							<div className='relative aspect-[16/9] overflow-hidden rounded-2xl border border-default mb-8'>
+								<Image
+									src={blog.image}
+									alt={blog.title}
+									fill
+									className='object-cover'
+									priority
+								/>
+							</div>
+						)}
 
 						{/* Tags */}
 						<div className='flex flex-wrap gap-2 mb-8'>
@@ -198,6 +225,63 @@ const BlogDetailsContent = ({ blog }: BlogDetailsContentProps) => {
 								Copy Link
 							</button>
 						</div>
+
+						{(blog.updatedAt ||
+							blog.metaDescription ||
+							blog.seoTitle ||
+							blog.seoDescription ||
+							blog.published !== undefined) && (
+							<div className='mt-8 grid gap-3 rounded-2xl border border-default bg-muted/30 p-5 text-sm text-muted-foreground sm:grid-cols-2'>
+								{blog.updatedAt && (
+									<div>
+										<span className='block font-medium text-foreground'>
+											Last Updated
+										</span>
+										<span>
+											{new Date(blog.updatedAt).toLocaleDateString('en-US', {
+												month: 'long',
+												day: 'numeric',
+												year: 'numeric',
+											})}
+										</span>
+									</div>
+								)}
+								{blog.published !== undefined && (
+									<div>
+										<span className='block font-medium text-foreground'>
+											Visibility
+										</span>
+										<span>{blog.published ? 'Published' : 'Draft'}</span>
+									</div>
+								)}
+								{blog.metaDescription && (
+									<div className='sm:col-span-2'>
+										<span className='block font-medium text-foreground'>
+											Meta Description
+										</span>
+										<span>{blog.metaDescription}</span>
+									</div>
+								)}
+								{blog.seoTitle && (
+									<div>
+										<span className='flex items-center gap-2 font-medium text-foreground'>
+											<FaSearch className='w-3 h-3 text-primary' />
+											<span>SEO Title</span>
+										</span>
+										<span>{blog.seoTitle}</span>
+									</div>
+								)}
+								{blog.seoDescription && (
+									<div>
+										<span className='flex items-center gap-2 font-medium text-foreground'>
+											<FaSearch className='w-3 h-3 text-primary' />
+											<span>SEO Description</span>
+										</span>
+										<span>{blog.seoDescription}</span>
+									</div>
+								)}
+							</div>
+						)}
 					</div>
 				</div>
 			</section>
@@ -286,7 +370,7 @@ const BlogDetailsContent = ({ blog }: BlogDetailsContentProps) => {
 							{/* Article Content with Enhanced Typography */}
 							<article className='relative blog-content!'>
 								<div className='prose prose-lg max-w-none'>
-									<BlogContentRenderer content={blog.content} />
+									<BlogContentRenderer content={contentToRender} />
 								</div>
 							</article>
 

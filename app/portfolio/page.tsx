@@ -1,6 +1,6 @@
 // app/portfolio/page.tsx
 import PortfolioContent from '@/components/portfolio/PortfolioContent';
-import { projectsApi } from '@/lib/api/client';
+import { getAllProjects, getProjectCategories } from '@/lib/data/projects';
 
 interface PortfolioPageProps {
 	searchParams?: {
@@ -23,9 +23,10 @@ const PortfolioPage = async ({ searchParams }: PortfolioPageProps) => {
 	const page = parseInt(pageParam, 10);
 	const itemsPerPage = 9;
 
-	// Fetch data through API layer
-	const categories = await projectsApi.getCategories();
-	const allProjects = await projectsApi.listAll();
+	const [categories, allProjects] = await Promise.all([
+		getProjectCategories(),
+		getAllProjects(),
+	]);
 
 	return (
 		<PortfolioContent

@@ -1,7 +1,7 @@
 // app/portfolio/[slug]/page.tsx (Server Component)
 import { notFound } from 'next/navigation';
-import { projectsApi } from '@/lib/api/client';
 import ProjectDetailsContent from '@/components/portfolio/ProjectDetailsContent';
+import { getProjectBySlug } from '@/lib/data/projects';
 
 interface PageProps {
 params: Promise<{
@@ -11,7 +11,7 @@ slug: string;
 
 export default async function ProjectDetails({ params }: PageProps) {
 const { slug } = await params;
-const project = await projectsApi.getBySlug(slug);
+const project = await getProjectBySlug(slug);
 
 if (!project) {
 notFound();

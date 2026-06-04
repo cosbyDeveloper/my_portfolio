@@ -1,5 +1,5 @@
 import BlogContent from '@/components/blog/BlogContent';
-import { blogsApi } from '@/lib/api/client';
+import { getBlogTagFilters, getPublishedBlogs } from '@/lib/data/blogs';
 
 interface BlogPageProps {
 	searchParams?: {
@@ -21,9 +21,10 @@ const BlogPage = async ({ searchParams }: BlogPageProps) => {
 	const page = parseInt(pageFilter, 10);
 	const itemsPerPage = 9;
 
-	// Fetch data through API layer
-	const filters = await blogsApi.getTags();
-	const allBlogs = await blogsApi.listAll();
+	const [filters, allBlogs] = await Promise.all([
+		getBlogTagFilters(),
+		getPublishedBlogs(),
+	]);
 
 	return (
 		<BlogContent
