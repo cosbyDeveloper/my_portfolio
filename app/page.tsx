@@ -19,15 +19,15 @@
 // }
 
 // app/page.tsx
-import Certifications from '@/components/home/Certifications';
-import CommunityPresence from '@/components/home/CommunityPresence';
+// import Certifications from '@/components/home/Certifications';
+// import CommunityPresence from '@/components/home/CommunityPresence';
 import ExperienceEducation from '@/components/home/ExperienceEducation';
 import FAQ from '@/components/home/FAQ';
 import FeaturedBlogs from '@/components/home/FeaturedBlogs';
 import FeaturedProjects from '@/components/home/FeaturedProjects';
 import GetInTouch from '@/components/home/GetInTouch';
 import Hero from '@/components/home/Hero';
-import Research from '@/components/home/Research';
+// import Research from '@/components/home/Research';
 import Skills from '@/components/home/Skills';
 
 const HomePage = () => {
@@ -35,10 +35,10 @@ const HomePage = () => {
 		<>
 			<Hero />
 			<Skills />
-			<Certifications />
+			{/* <Certifications /> */}
 			<ExperienceEducation />
-			<Research />
-			<CommunityPresence />
+			{/* <Research /> */}
+			{/* <CommunityPresence /> */}
 			<FeaturedProjects />
 			<FeaturedBlogs />
 			<FAQ />

@@ -42,6 +42,5 @@ next-env.d.ts
 
 
 # ================
-# /app/api/
-# /app/dashboard/
-# /lib/
+.agents
+.codex
