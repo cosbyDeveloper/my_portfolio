@@ -11,7 +11,12 @@ import {
 	FaPhone,
 	FaUser,
 	FaCalendarAlt,
+	FaTag,
+	FaFlag,
+	FaEye,
+	FaReply,
 } from 'react-icons/fa';
+import Link from 'next/link';
 import { Message } from '@/lib/types';
 
 export default function MessagesPage() {
@@ -20,6 +25,7 @@ export default function MessagesPage() {
 	const [error, setError] = useState('');
 	const [deleting, setDeleting] = useState<string | null>(null);
 	const [marking, setMarking] = useState<string | null>(null);
+	const [filter, setFilter] = useState<'all' | 'unread' | 'high'>('all');
 
 	useEffect(() => {
 		fetchMessages();
@@ -79,7 +85,9 @@ export default function MessagesPage() {
 
 			if (response.ok) {
 				setMessages(
-					messages.map((m) => (m._id === _id ? { ...m, read: true } : m)),
+					messages.map((m) =>
+						m._id === _id ? { ...m, read: true, status: 'read' } : m,
+					),
 				);
 			}
 		} catch (err) {
@@ -88,6 +96,40 @@ export default function MessagesPage() {
 			setMarking(null);
 		}
 	};
+
+	const getPriorityColor = (priority: string) => {
+		switch (priority) {
+			case 'high':
+				return 'text-red-600 bg-red-500/10';
+			case 'low':
+				return 'text-green-600 bg-green-500/10';
+			default:
+				return 'text-blue-600 bg-blue-500/10';
+		}
+	};
+
+	const getStatusColor = (status: string) => {
+		switch (status) {
+			case 'new':
+				return 'text-purple-600 bg-purple-500/10';
+			case 'read':
+				return 'text-blue-600 bg-blue-500/10';
+			case 'replied':
+				return 'text-green-600 bg-green-500/10';
+			case 'archived':
+				return 'text-gray-600 bg-gray-500/10';
+			case 'spam':
+				return 'text-red-600 bg-red-500/10';
+			default:
+				return 'text-gray-600 bg-gray-500/10';
+		}
+	};
+
+	const filteredMessages = messages.filter((msg) => {
+		if (filter === 'unread') return !msg.read;
+		if (filter === 'high') return msg.priority === 'high';
+		return true;
+	});
 
 	if (isLoading) {
 		return (
@@ -101,6 +143,9 @@ export default function MessagesPage() {
 	}
 
 	const unreadCount = messages.filter((m) => !m.read).length;
+	const highPriorityCount = messages.filter(
+		(m) => m.priority === 'high' && !m.read,
+	).length;
 
 	return (
 		<div>
@@ -127,6 +172,11 @@ export default function MessagesPage() {
 											{unreadCount}
 										</span>{' '}
 										unread message{unreadCount !== 1 ? 's' : ''}
+										{highPriorityCount > 0 && (
+											<span className='ml-2 text-red-600'>
+												({highPriorityCount} high priority)
+											</span>
+										)}
 									</>
 								) : (
 									'All messages read'
@@ -135,13 +185,29 @@ export default function MessagesPage() {
 						</div>
 					</div>
 
-					{/* Optional: Add refresh button */}
-					<button
-						onClick={() => fetchMessages()}
-						className='flex items-center gap-2 px-4 py-2 rounded-xl border border-default hover:bg-muted/50 transition-all hover:scale-105 active:scale-95'>
-						<FaSpinner className='w-4 h-4' />
-						<span>Refresh</span>
-					</button>
+					{/* Filters */}
+					<div className='flex gap-2'>
+						<button
+							onClick={() => setFilter('all')}
+							className={`px-3 py-1.5 rounded-lg text-sm transition-all ${filter === 'all' ? 'bg-accent text-white' : 'border border-default hover:bg-muted/50'}`}>
+							All
+						</button>
+						<button
+							onClick={() => setFilter('unread')}
+							className={`px-3 py-1.5 rounded-lg text-sm transition-all ${filter === 'unread' ? 'bg-accent text-white' : 'border border-default hover:bg-muted/50'}`}>
+							Unread
+						</button>
+						<button
+							onClick={() => setFilter('high')}
+							className={`px-3 py-1.5 rounded-lg text-sm transition-all ${filter === 'high' ? 'bg-red-600 text-white' : 'border border-default hover:bg-muted/50'}`}>
+							High Priority
+						</button>
+						<button
+							onClick={() => fetchMessages()}
+							className='px-3 py-1.5 rounded-lg border border-default hover:bg-muted/50 transition-all'>
+							<FaSpinner className='w-4 h-4' />
+						</button>
+					</div>
 				</div>
 			</motion.div>
 
@@ -156,7 +222,7 @@ export default function MessagesPage() {
 			)}
 
 			{/* Empty State */}
-			{messages.length === 0 ? (
+			{filteredMessages.length === 0 ? (
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}
@@ -172,112 +238,142 @@ export default function MessagesPage() {
 			) : (
 				/* Messages List */
 				<div className='space-y-3'>
-					{messages.map((message, index) => {
-						const fullName = message.lastName
-							? `${message.firstName} ${message.lastName}`
-							: message.firstName;
-
-						return (
-							<motion.div
-								key={message._id}
-								initial={{ opacity: 0, y: 20 }}
-								animate={{ opacity: 1, y: 0 }}
-								transition={{ delay: index * 0.05 }}
-								className='group relative'>
-								<div
-									className={`absolute -inset-0.5 bg-linear-to-r from-accent/20 to-primary/20 rounded-xl blur opacity-0 group-hover:opacity-50 transition duration-300 ${!message.read ? 'opacity-30' : ''}`}
-								/>
-								<div
-									className={`relative bg-background/50 backdrop-blur-sm rounded-xl border border-default p-5 hover:border-accent/50 transition-all ${!message.read ? 'border-accent/30' : ''}`}>
-									<div className='flex items-start justify-between gap-4'>
-										{/* Message Content */}
-										<div className='flex-1 min-w-0'>
-											{/* Header with name and status */}
-											<div className='flex items-center gap-3 mb-3 flex-wrap'>
-												<div className='flex items-center gap-2'>
-													<div className='p-1.5 rounded-lg bg-accent/10'>
-														<FaUser className='w-3 h-3 text-accent' />
-													</div>
-													<h3 className='text-lg font-semibold'>{fullName}</h3>
+					{filteredMessages.map((message, index) => (
+						<motion.div
+							key={message._id}
+							initial={{ opacity: 0, y: 20 }}
+							animate={{ opacity: 1, y: 0 }}
+							transition={{ delay: index * 0.05 }}
+							className='group relative'>
+							<div
+								className={`absolute -inset-0.5 bg-linear-to-r from-accent/20 to-primary/20 rounded-xl blur opacity-0 group-hover:opacity-50 transition duration-300 ${!message.read ? 'opacity-30' : ''}`}
+							/>
+							<div
+								className={`relative bg-background/50 backdrop-blur-sm rounded-xl border border-default p-5 hover:border-accent/50 transition-all ${!message.read ? 'border-accent/30' : ''}`}>
+								<div className='flex items-start justify-between gap-4'>
+									{/* Message Content */}
+									<div className='flex-1 min-w-0'>
+										{/* Header with name and status */}
+										<div className='flex items-center gap-3 mb-3 flex-wrap'>
+											<div className='flex items-center gap-2'>
+												<div className='p-1.5 rounded-lg bg-accent/10'>
+													<FaUser className='w-3 h-3 text-accent' />
 												</div>
-												{!message.read && (
-													<span className='text-xs font-semibold bg-accent/20 text-accent px-2 py-1 rounded-full'>
-														Unread
-													</span>
-												)}
+												<h3 className='text-lg font-semibold'>
+													{message.lastName
+														? `${message.firstName} ${message.lastName}`
+														: message.firstName}
+												</h3>
 											</div>
-
-											{/* Contact Info */}
-											<div className='grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3'>
-												<a
-													href={`mailto:${message.email}`}
-													className='text-sm text-accent hover:underline inline-flex items-center gap-1'>
-													<FaEnvelope className='w-3 h-3' />
-													{message.email}
-												</a>
-												{message.phone && (
-													<div className='text-sm text-muted-foreground inline-flex items-center gap-1'>
-														<FaPhone className='w-3 h-3' />
-														{message.phone}
-													</div>
-												)}
-											</div>
-
-											{/* Subject */}
-											{message.subject && (
-												<p className='text-sm font-medium text-foreground mb-2'>
-													Subject: {message.subject}
-												</p>
+											{!message.read && (
+												<span className='text-xs font-semibold bg-accent/20 text-accent px-2 py-1 rounded-full'>
+													Unread
+												</span>
 											)}
+											<span
+												className={`text-xs px-2 py-1 rounded-full ${getPriorityColor(message.priority || 'normal')}`}>
+												<FaFlag className='inline w-3 h-3 mr-1' />
+												{message.priority || 'normal'}
+											</span>
+											<span
+												className={`text-xs px-2 py-1 rounded-full ${getStatusColor(message.status || 'new')}`}>
+												{message.status || 'new'}
+											</span>
+											{message.category && (
+												<span className='text-xs px-2 py-1 rounded-full bg-gray-500/10 text-gray-600'>
+													<FaTag className='inline w-3 h-3 mr-1' />
+													{message.category}
+												</span>
+											)}
+										</div>
 
-											{/* Message */}
-											<p className='text-sm text-muted-foreground leading-relaxed'>
-												{message.message}
+										{/* Contact Info */}
+										<div className='grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3'>
+											<a
+												href={`mailto:${message.email}`}
+												className='text-sm text-accent hover:underline inline-flex items-center gap-1'>
+												<FaEnvelope className='w-3 h-3' />
+												{message.email}
+											</a>
+											{message.phone && (
+												<div className='text-sm text-muted-foreground inline-flex items-center gap-1'>
+													<FaPhone className='w-3 h-3' />
+													{message.phone}
+												</div>
+											)}
+										</div>
+
+										{/* Subject */}
+										{message.subject && (
+											<p className='text-sm font-medium text-foreground mb-2'>
+												Subject: {message.subject}
 											</p>
+										)}
 
-											{/* Timestamp */}
-											<div className='flex items-center gap-1 mt-3 text-xs text-muted-foreground'>
-												<FaCalendarAlt className='w-3 h-3' />
+										{/* Message Preview */}
+										<p className='text-sm text-muted-foreground leading-relaxed line-clamp-2'>
+											{message.message}
+										</p>
+
+										{/* Reply Info */}
+										{message.replyCount > 0 && (
+											<div className='flex items-center gap-1 mt-2 text-xs text-green-600'>
+												<FaReply className='w-3 h-3' />
 												<span>
-													{message.createdAt
-														? new Date(message.createdAt).toLocaleString()
-														: 'N/A'}
+													{message.replyCount} repl
+													{message.replyCount === 1 ? 'y' : 'ies'}
 												</span>
 											</div>
-										</div>
+										)}
 
-										{/* Actions */}
-										<div className='flex items-center gap-2 shrink-0'>
-											{!message.read && (
-												<button
-													onClick={() => handleMarkAsRead(message._id || '')}
-													disabled={marking === message._id}
-													className='p-2 rounded-lg bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/20 transition-all hover:scale-110 disabled:opacity-50'
-													title='Mark as read'>
-													{marking === message._id ? (
-														<FaSpinner className='w-4 h-4 animate-spin' />
-													) : (
-														<FaCheckCircle className='w-4 h-4' />
-													)}
-												</button>
-											)}
-											<button
-												onClick={() => handleDelete(message._id || '')}
-												disabled={deleting === message._id}
-												className='p-2 rounded-lg bg-red-500/10 text-red-600 hover:bg-red-500/20 transition-all hover:scale-110 disabled:opacity-50'
-												title='Delete message'>
-												{deleting === message._id ? (
-													<FaSpinner className='w-4 h-4 animate-spin' />
-												) : (
-													<FaTrash className='w-4 h-4' />
-												)}
-											</button>
+										{/* Timestamp */}
+										<div className='flex items-center gap-1 mt-3 text-xs text-muted-foreground'>
+											<FaCalendarAlt className='w-3 h-3' />
+											<span>
+												{message.createdAt
+													? new Date(message.createdAt).toLocaleString()
+													: 'N/A'}
+											</span>
 										</div>
 									</div>
+
+									{/* Actions */}
+									<div className='flex items-center gap-2 shrink-0'>
+										<Link
+											href={`/admin/messages/${message._id}`}
+											className='p-2 rounded-lg bg-accent/10 text-accent hover:bg-accent/20 transition-all hover:scale-110'
+											title='View Details'>
+											<FaEye className='w-4 h-4' />
+										</Link>
+										{!message.read && (
+											<button
+												onClick={() => handleMarkAsRead(message._id || '')}
+												disabled={marking === message._id}
+												className='p-2 rounded-lg bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/20 transition-all hover:scale-110 disabled:opacity-50'
+												title='Mark as read'>
+												{marking === message._id ? (
+													<FaSpinner className='w-4 h-4 animate-spin' />
+												) : (
+													<FaCheckCircle className='w-4 h-4' />
+												)}
+											</button>
+										)}
+										<button
+											onClick={() => handleDelete(message._id || '')}
+											disabled={deleting === message._id}
+											className='p-2 rounded-lg bg-red-500/10 text-red-600 hover:bg-red-500/20 transition-all hover:scale-110 disabled:opacity-50'
+											title='Delete message'>
+											{deleting === message._id ? (
+												<FaSpinner className='w-4 h-4 animate-spin' />
+											) : (
+												<FaTrash className='w-4 h-4' />
+											)}
+										</button>
+									</div>
 								</div>
-							</motion.div>
-						);
-					})}
+							</div>
+						</motion.div>
+					))}
 				</div>
 			)}
 		</div>

@@ -1,4 +1,4 @@
-// components/home/Contact.tsx
+// components/home/GetInTouch.tsx
 'use client';
 
 import { motion } from 'framer-motion';
@@ -13,11 +13,21 @@ import {
 	FaSpinner,
 	FaCheck,
 	FaExclamationCircle,
+	FaTag,
 } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 import { SiHuggingface, SiKaggle, SiGooglescholar } from 'react-icons/si';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+
+const CATEGORY_OPTIONS = [
+	{ value: 'general', label: 'General Inquiry' },
+	{ value: 'job', label: 'Job Opportunity' },
+	{ value: 'collaboration', label: 'Collaboration' },
+	{ value: 'question', label: 'Question' },
+	{ value: 'project', label: 'Project Discussion' },
+	{ value: 'other', label: 'Other' },
+];
 
 const GetInTouch = ({ showMore = true }) => {
 	const { contact } = homeContent;
@@ -29,6 +39,7 @@ const GetInTouch = ({ showMore = true }) => {
 		subject: '',
 		message: '',
 		website: '',
+		category: 'general',
 	});
 	const [formTimestamp, setFormTimestamp] = useState<number | null>(null);
 	const [loading, setLoading] = useState(false);
@@ -43,7 +54,9 @@ const GetInTouch = ({ showMore = true }) => {
 	}, []);
 
 	const handleChange = (
-		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+		e: React.ChangeEvent<
+			HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+		>,
 	) => {
 		const { id, value } = e.target;
 		setFormData((prev) => ({ ...prev, [id]: value }));
@@ -55,21 +68,21 @@ const GetInTouch = ({ showMore = true }) => {
 		setFeedback({ type: null, message: '' });
 
 		try {
-			const fullName =
-				`${formData.firstName}${formData.lastName ? ' ' + formData.lastName : ''}`.trim();
 			const subject = formData.subject || 'Portfolio Contact';
 
 			const response = await fetch('/api/contact', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
-					name: fullName,
+					firstName: formData.firstName,
+					lastName: formData.lastName,
 					email: formData.email,
 					subject,
 					message: formData.message,
 					phone: formData.phone,
 					website: formData.website,
 					formTimestamp,
+					category: formData.category,
 				}),
 			});
 
@@ -88,6 +101,7 @@ const GetInTouch = ({ showMore = true }) => {
 					subject: '',
 					message: '',
 					website: '',
+					category: 'general',
 				});
 				setFormTimestamp(Date.now());
 			} else {
@@ -222,21 +236,61 @@ const GetInTouch = ({ showMore = true }) => {
 										/>
 									</div>
 
-									{/* Subject */}
+									{/* Phone */}
 									<div className='space-y-2'>
-										<label htmlFor='subject' className='text-sm font-medium'>
-											Subject
+										<label htmlFor='phone' className='text-sm font-medium'>
+											Phone (Optional)
 										</label>
 										<input
-											type='text'
-											id='subject'
-											value={formData.subject}
+											type='tel'
+											id='phone'
+											value={formData.phone}
 											onChange={handleChange}
 											disabled={loading}
 											className='w-full px-4 py-3 rounded-xl border border-default bg-background focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition disabled:opacity-50'
-											placeholder='Project inquiry'
+											placeholder='+233 XX XXX XXXX'
 										/>
 									</div>
+								</div>
+
+								{/* Category Selection */}
+								<div className='space-y-2'>
+									<label htmlFor='category' className='text-sm font-medium'>
+										<FaTag className='inline w-4 h-4 mr-1' />
+										Inquiry Type <span className='text-red-500'>*</span>
+									</label>
+									<select
+										id='category'
+										value={formData.category}
+										onChange={handleChange}
+										required
+										disabled={loading}
+										className='w-full px-4 py-3 rounded-xl border border-default bg-background focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition disabled:opacity-50'>
+										{CATEGORY_OPTIONS.map((option) => (
+											<option key={option.value} value={option.value}>
+												{option.label}
+											</option>
+										))}
+									</select>
+									<p className='text-xs text-muted-foreground'>
+										Selecting the right category helps me respond faster
+									</p>
+								</div>
+
+								{/* Subject */}
+								<div className='space-y-2'>
+									<label htmlFor='subject' className='text-sm font-medium'>
+										Subject <span className='text-red-500'>*</span>
+									</label>
+									<input
+										type='text'
+										id='subject'
+										value={formData.subject}
+										onChange={handleChange}
+										disabled={loading}
+										className='w-full px-4 py-3 rounded-xl border border-default bg-background focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition disabled:opacity-50'
+										placeholder='What is this regarding?'
+									/>
 								</div>
 
 								{/* Message */}
@@ -293,6 +347,11 @@ const GetInTouch = ({ showMore = true }) => {
 							<div className='mb-8 p-6 rounded-xl bg-primary/5 border border-primary/10'>
 								<p className='text-muted-foreground'>
 									Fill up the form and I will get back to you within 24 hours.
+								</p>
+								<p className='text-sm text-muted-foreground mt-3'>
+									💡 <span className='font-medium'>Pro tip:</span> Selecting the
+									right category helps me prioritize and respond to your inquiry
+									faster!
 								</p>
 							</div>
 
@@ -363,7 +422,7 @@ const GetInTouch = ({ showMore = true }) => {
 									</div>
 								</motion.div>
 
-								{/* Additional Info - Optional */}
+								{/* Additional Info */}
 								<motion.div
 									initial={{ opacity: 0, y: 10 }}
 									whileInView={{ opacity: 1, y: 0 }}

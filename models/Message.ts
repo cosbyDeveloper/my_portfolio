@@ -9,7 +9,8 @@ export interface IMessageReply {
 }
 
 export interface IMessage extends mongoose.Document {
-	name: string;
+	firstName: string;
+	lastName?: string;
 	email: string;
 	phone?: string;
 	subject: string;
@@ -53,14 +54,18 @@ export interface IMessage extends mongoose.Document {
 
 const MessageSchema = new mongoose.Schema<IMessage>(
 	{
-		name: {
+		firstName: {
 			type: String,
-			required: true,
+			required: [true, 'First name is required'],
+			trim: true,
+		},
+		lastName: {
+			type: String,
 			trim: true,
 		},
 		email: {
 			type: String,
-			required: true,
+			required: [true, 'Email address is required'],
 			lowercase: true,
 			trim: true,
 			validate: {
@@ -77,13 +82,13 @@ const MessageSchema = new mongoose.Schema<IMessage>(
 		},
 		subject: {
 			type: String,
-			required: true,
+			required: [true, 'Subject is required'],
 			trim: true,
 			maxlength: 200,
 		},
 		message: {
 			type: String,
-			required: true,
+			required: [true, 'Message content is required'],
 			trim: true,
 			minlength: 10,
 			maxlength: 5000,
@@ -156,7 +161,12 @@ const MessageSchema = new mongoose.Schema<IMessage>(
 	},
 );
 
-// Pre-save middleware with async/await and proper error handling
+// Virtual property for full name
+MessageSchema.virtual('fullName').get(function () {
+	return this.lastName ? `${this.firstName} ${this.lastName}` : this.firstName;
+});
+
+// Pre-save middleware
 MessageSchema.pre('save', async function () {
 	try {
 		// Update replyCount and timestamps when replies change
@@ -198,24 +208,19 @@ MessageSchema.pre('save', async function () {
 			this.archivedAt = new Date();
 		}
 	} catch (error) {
-		// Log the error but don't throw - let Mongoose handle the save error
 		console.error('Error in Message pre-save middleware:', error);
 	}
 });
 
-// Post-save middleware for additional actions (like sending notifications)
+// Post-save middleware
 MessageSchema.post('save', async function (doc) {
 	try {
-		// Example: Send email notification for new messages
 		if (doc.isNew && doc.status === 'new') {
-			// await sendNewMessageNotification(doc);
-			console.log(`New message received from ${doc.name} (${doc.email})`);
+			console.log(
+				`New message received from ${doc.firstName} ${doc.lastName || ''} (${doc.email})`,
+			);
 		}
-
-		// Example: Update cache or analytics
-		// await updateMessageStatsCache();
 	} catch (error) {
-		// Don't throw in post-save middleware - just log
 		console.error('Error in Message post-save middleware:', error);
 	}
 });
@@ -234,7 +239,7 @@ MessageSchema.virtual('isUnread').get(function () {
 	return !this.read;
 });
 
-// Static methods with proper async/await and error handling
+// Static methods
 MessageSchema.statics = {
 	// Find unread messages
 	async findUnread() {
@@ -271,7 +276,6 @@ MessageSchema.statics = {
 				this.aggregate([{ $group: { _id: '$category', count: { $sum: 1 } } }]),
 			]);
 
-			// Convert arrays to objects
 			const byStatus: Record<string, number> = {};
 			const byCategory: Record<string, number> = {};
 
@@ -323,7 +327,6 @@ MessageSchema.statics = {
 
 			message.replies.push(reply);
 
-			// If admin is replying for the first time, update status
 			if (reply.sentBy === 'admin' && message.status !== 'replied') {
 				message.status = 'replied';
 			}
@@ -336,7 +339,7 @@ MessageSchema.statics = {
 	},
 };
 
-// Define the model
+// Define the model interface
 interface MessageModel extends mongoose.Model<IMessage> {
 	findUnread(): Promise<IMessage[]>;
 	findByEmail(email: string): Promise<IMessage[]>;
@@ -350,6 +353,7 @@ interface MessageModel extends mongoose.Model<IMessage> {
 	addReply(messageId: string, reply: IMessageReply): Promise<IMessage>;
 }
 
+// Export the model
 export const Message: MessageModel =
 	(mongoose.models.Message as MessageModel) ||
 	mongoose.model<IMessage, MessageModel>('Message', MessageSchema);
