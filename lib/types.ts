@@ -4,7 +4,7 @@
  * These match the original constants and Mongoose models.
  */
 
-import { IMessageReply } from '@/models/Message';
+import { IMessageReply } from '@/lib/models/Message';
 
 /**
  * Project type - represents a portfolio project

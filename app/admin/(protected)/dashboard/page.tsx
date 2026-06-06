@@ -12,6 +12,7 @@ import {
 	FaUserShield,
 	FaSpinner,
 	FaCheckCircle,
+	FaFlag,
 } from 'react-icons/fa';
 
 interface Stats {
@@ -19,6 +20,7 @@ interface Stats {
 	blogs: number;
 	messages: number;
 	unread: number;
+	highPriorityUnread: number;
 	projectsByCategory?: Record<string, number>;
 }
 
@@ -28,6 +30,7 @@ export default function DashboardPage() {
 		blogs: 0,
 		messages: 0,
 		unread: 0,
+		highPriorityUnread: 0,
 	});
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState('');
@@ -91,6 +94,15 @@ export default function DashboardPage() {
 			color: 'primary',
 			bgClass: 'bg-primary/10',
 			iconClass: 'text-primary',
+		},
+		{
+			title: 'High Priority',
+			value: stats.highPriorityUnread || 0,
+			icon: FaFlag, // Import FaFlag from react-icons/fa
+			color: 'red',
+			bgClass: 'bg-red-500/10',
+			iconClass: 'text-red-500',
+			href: '/admin/messages?priority=high&read=false',
 		},
 	];
 

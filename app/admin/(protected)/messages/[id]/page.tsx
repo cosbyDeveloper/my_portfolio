@@ -12,13 +12,44 @@ import {
 	FaUser,
 	FaCalendarAlt,
 	FaTag,
-	FaFlag,
 	FaReply,
 	FaArrowLeft,
 	FaCheckCircle,
 	FaPaperPlane,
+	FaSave,
 } from 'react-icons/fa';
 import { Message } from '@/lib/types';
+
+const PRIORITY_OPTIONS = [
+	{ value: 'low', label: 'Low', color: 'text-green-600 bg-green-500/10' },
+	{ value: 'normal', label: 'Normal', color: 'text-blue-600 bg-blue-500/10' },
+	{ value: 'high', label: 'High', color: 'text-red-600 bg-red-500/10' },
+];
+
+const STATUS_OPTIONS = [
+	{ value: 'new', label: 'New', color: 'text-purple-600 bg-purple-500/10' },
+	{ value: 'read', label: 'Read', color: 'text-blue-600 bg-blue-500/10' },
+	{
+		value: 'replied',
+		label: 'Replied',
+		color: 'text-green-600 bg-green-500/10',
+	},
+	{
+		value: 'archived',
+		label: 'Archived',
+		color: 'text-gray-600 bg-gray-500/10',
+	},
+	{ value: 'spam', label: 'Spam', color: 'text-red-600 bg-red-500/10' },
+];
+
+const CATEGORY_OPTIONS = [
+	{ value: 'general', label: 'General' },
+	{ value: 'job', label: 'Job Opportunity' },
+	{ value: 'collaboration', label: 'Collaboration' },
+	{ value: 'question', label: 'Question' },
+	{ value: 'project', label: 'Project' },
+	{ value: 'other', label: 'Other' },
+];
 
 export default function MessageDetailPage() {
 	const params = useParams();
@@ -29,6 +60,12 @@ export default function MessageDetailPage() {
 	const [replyContent, setReplyContent] = useState('');
 	const [sendingReply, setSendingReply] = useState(false);
 	const [error, setError] = useState('');
+	const [updating, setUpdating] = useState(false);
+	const [priority, setPriority] = useState('normal');
+	const [status, setStatus] = useState('new');
+	const [category, setCategory] = useState('general');
+	const [adminNotes, setAdminNotes] = useState('');
+	const [showNotes, setShowNotes] = useState(false);
 
 	useEffect(() => {
 		fetchMessage();
@@ -46,6 +83,10 @@ export default function MessageDetailPage() {
 
 			const data = await response.json();
 			setMessage(data.data);
+			setPriority(data.data.priority || 'normal');
+			setStatus(data.data.status || 'new');
+			setCategory(data.data.category || 'general');
+			setAdminNotes(data.data.adminNotes || '');
 
 			// Mark as read if not already
 			if (!data.data.read) {
@@ -61,6 +102,31 @@ export default function MessageDetailPage() {
 			console.error(err);
 		} finally {
 			setIsLoading(false);
+		}
+	};
+
+	const handleUpdateField = async (field: string, value: string | boolean) => {
+		setUpdating(true);
+		try {
+			const response = await fetch(`/api/admin/messages/${id}`, {
+				method: 'PATCH',
+				headers: { 'Content-Type': 'application/json' },
+				credentials: 'include',
+				body: JSON.stringify({ [field]: value }),
+			});
+
+			if (response.ok) {
+				const data = await response.json();
+				setMessage(data.data);
+				if (field === 'priority') setPriority(value as string);
+				if (field === 'status') setStatus(value as string);
+				if (field === 'category') setCategory(value as string);
+				if (field === 'adminNotes') setAdminNotes(value as string);
+			}
+		} catch (err) {
+			console.error(`Failed to update ${field}:`, err);
+		} finally {
+			setUpdating(false);
 		}
 	};
 
@@ -108,28 +174,14 @@ export default function MessageDetailPage() {
 		}
 	};
 
-	const getPriorityColor = (priority: string) => {
-		switch (priority) {
-			case 'high':
-				return 'text-red-600 bg-red-500/10';
-			case 'low':
-				return 'text-green-600 bg-green-500/10';
-			default:
-				return 'text-blue-600 bg-blue-500/10';
-		}
+	const getPriorityColor = (priorityValue: string) => {
+		const option = PRIORITY_OPTIONS.find((o) => o.value === priorityValue);
+		return option?.color || PRIORITY_OPTIONS[1].color;
 	};
 
-	const getStatusColor = (status: string) => {
-		switch (status) {
-			case 'new':
-				return 'text-purple-600 bg-purple-500/10';
-			case 'read':
-				return 'text-blue-600 bg-blue-500/10';
-			case 'replied':
-				return 'text-green-600 bg-green-500/10';
-			default:
-				return 'text-gray-600 bg-gray-500/10';
-		}
+	const getStatusColor = (statusValue: string) => {
+		const option = STATUS_OPTIONS.find((o) => o.value === statusValue);
+		return option?.color || STATUS_OPTIONS[0].color;
 	};
 
 	if (isLoading) {
@@ -197,27 +249,72 @@ export default function MessageDetailPage() {
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ delay: 0.1 }}
 				className='bg-background/50 backdrop-blur-sm rounded-2xl border border-default p-6 mb-6'>
-				{/* Status Badges */}
-				<div className='flex flex-wrap gap-2 mb-6'>
+				{/* Editable Status Badges */}
+				<div className='flex flex-wrap gap-3 mb-6 pb-4 border-b border-default'>
+					<div>
+						<label className='text-xs text-muted-foreground block mb-1'>
+							Priority
+						</label>
+						<select
+							value={priority}
+							onChange={(e) => handleUpdateField('priority', e.target.value)}
+							disabled={updating}
+							className={`text-xs px-2 py-1 rounded-full border border-default focus:outline-none focus:ring-1 focus:ring-primary ${getPriorityColor(priority)}`}>
+							{PRIORITY_OPTIONS.map((option) => (
+								<option key={option.value} value={option.value}>
+									{option.label}
+								</option>
+							))}
+						</select>
+					</div>
+
+					<div>
+						<label className='text-xs text-muted-foreground block mb-1'>
+							Status
+						</label>
+						<select
+							value={status}
+							onChange={(e) => handleUpdateField('status', e.target.value)}
+							disabled={updating}
+							className={`text-xs px-2 py-1 rounded-full border border-default focus:outline-none focus:ring-1 focus:ring-primary ${getStatusColor(status)}`}>
+							{STATUS_OPTIONS.map((option) => (
+								<option key={option.value} value={option.value}>
+									{option.label}
+								</option>
+							))}
+						</select>
+					</div>
+
+					<div>
+						<label className='text-xs text-muted-foreground block mb-1'>
+							Category
+						</label>
+						<select
+							value={category}
+							onChange={(e) => handleUpdateField('category', e.target.value)}
+							disabled={updating}
+							className='text-xs px-2 py-1 rounded-full border border-default focus:outline-none focus:ring-1 focus:ring-primary bg-gray-500/10 text-gray-600'>
+							{CATEGORY_OPTIONS.map((option) => (
+								<option key={option.value} value={option.value}>
+									{option.label}
+								</option>
+							))}
+						</select>
+					</div>
+
 					{!message.read && (
-						<span className='text-xs font-semibold bg-accent/20 text-accent px-2 py-1 rounded-full'>
-							Unread
-						</span>
-					)}
-					<span
-						className={`text-xs px-2 py-1 rounded-full ${getPriorityColor(message.priority || 'normal')}`}>
-						<FaFlag className='inline w-3 h-3 mr-1' />
-						{message.priority || 'normal'} priority
-					</span>
-					<span
-						className={`text-xs px-2 py-1 rounded-full ${getStatusColor(message.status || 'new')}`}>
-						{message.status || 'new'}
-					</span>
-					{message.category && (
-						<span className='text-xs px-2 py-1 rounded-full bg-gray-500/10 text-gray-600'>
-							<FaTag className='inline w-3 h-3 mr-1' />
-							{message.category}
-						</span>
+						<div>
+							<label className='text-xs text-muted-foreground block mb-1'>
+								Mark as Read
+							</label>
+							<button
+								onClick={() => handleUpdateField('read', true)}
+								disabled={updating}
+								className='text-xs px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/20 transition-all'>
+								<FaCheckCircle className='inline w-3 h-3 mr-1' />
+								Mark Read
+							</button>
+						</div>
 					)}
 				</div>
 
@@ -263,6 +360,42 @@ export default function MessageDetailPage() {
 					<div className='bg-muted/30 rounded-xl p-4 whitespace-pre-wrap'>
 						{message.message}
 					</div>
+				</div>
+
+				{/* Admin Notes Section */}
+				<div className='mb-6 pt-4 border-t border-default'>
+					<button
+						onClick={() => setShowNotes(!showNotes)}
+						className='flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors'>
+						<FaTag className='w-3 h-3' />
+						{showNotes ? 'Hide Admin Notes' : 'Show Admin Notes'}
+					</button>
+
+					{showNotes && (
+						<div className='mt-3'>
+							<label className='text-sm font-medium mb-2 block'>
+								Admin Notes
+							</label>
+							<textarea
+								value={adminNotes}
+								onChange={(e) => setAdminNotes(e.target.value)}
+								rows={3}
+								className='w-full px-4 py-3 rounded-xl border border-default bg-background focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all resize-none'
+								placeholder='Add internal notes about this message...'
+							/>
+							<button
+								onClick={() => handleUpdateField('adminNotes', adminNotes)}
+								disabled={updating}
+								className='mt-2 flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-all text-sm'>
+								{updating ? (
+									<FaSpinner className='w-3 h-3 animate-spin' />
+								) : (
+									<FaSave className='w-3 h-3' />
+								)}
+								Save Notes
+							</button>
+						</div>
+					)}
 				</div>
 
 				{/* Replies Section */}

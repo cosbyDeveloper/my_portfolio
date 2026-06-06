@@ -6,31 +6,13 @@ import { authenticateRequest, createAuthResponse } from '@/lib/middleware/auth';
 export async function GET(request: NextRequest) {
 	try {
 		const { user, error } = await authenticateRequest(request);
-		if (!user || error) {
-			return createAuthResponse(401, error || 'Unauthorized');
-		}
+		if (!user || error) return createAuthResponse(401, error || 'Unauthorized');
 
 		await connectDB();
 
-		const [total, unread, highPriority, byStatus] = await Promise.all([
-			Message.countDocuments(),
-			Message.countDocuments({ read: false }),
-			Message.countDocuments({ priority: 'high', read: false }),
-			Message.aggregate([{ $group: { _id: '$status', count: { $sum: 1 } } }]),
-		]);
+		const stats = await Message.getStats();
 
-		const statusCounts: Record<string, number> = {};
-		byStatus.forEach((item: { _id: string; count: number }) => {
-			statusCounts[item._id] = item.count;
-		});
-
-		return createAuthResponse(200, 'Stats fetched successfully', {
-			total,
-			unread,
-			highPriority,
-			read: total - unread,
-			byStatus: statusCounts,
-		});
+		return createAuthResponse(200, 'Stats fetched successfully', stats);
 	} catch (error: any) {
 		console.error('Messages stats error:', error);
 		return createAuthResponse(

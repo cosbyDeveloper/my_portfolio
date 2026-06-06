@@ -1,7 +1,5 @@
-import Project, { IProject } from './Project';
-import Blog, { IBlog } from './Blog';
-import Message, { IMessage } from './Message';
-import User, { IUser } from './User';
-
-export { Project, Blog, Message, User };
-export type { IProject, IBlog, IMessage, IUser };
+// lib/models/index.ts
+export { default as Project, type IProject } from './Project';
+export { default as Blog, type IBlog } from './Blog';
+export { Message, type IMessage, type IMessageReply } from './Message';
+export { default as User, type IUser } from './User';
