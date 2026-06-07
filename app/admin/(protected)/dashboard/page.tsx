@@ -7,12 +7,10 @@ import {
 	FaProjectDiagram,
 	FaBlog,
 	FaEnvelope,
-	FaEye,
 	FaArrowUp,
 	FaUserShield,
 	FaSpinner,
 	FaCheckCircle,
-	FaFlag,
 } from 'react-icons/fa';
 
 interface Stats {
@@ -20,7 +18,6 @@ interface Stats {
 	blogs: number;
 	messages: number;
 	unread: number;
-	highPriorityUnread: number;
 	projectsByCategory?: Record<string, number>;
 }
 
@@ -30,7 +27,6 @@ export default function DashboardPage() {
 		blogs: 0,
 		messages: 0,
 		unread: 0,
-		highPriorityUnread: 0,
 	});
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState('');
@@ -94,15 +90,6 @@ export default function DashboardPage() {
 			color: 'primary',
 			bgClass: 'bg-primary/10',
 			iconClass: 'text-primary',
-		},
-		{
-			title: 'High Priority',
-			value: stats.highPriorityUnread || 0,
-			icon: FaFlag, // Import FaFlag from react-icons/fa
-			color: 'red',
-			bgClass: 'bg-red-500/10',
-			iconClass: 'text-red-500',
-			href: '/admin/messages?priority=high&read=false',
 		},
 	];
 
@@ -209,7 +196,7 @@ export default function DashboardPage() {
 							</Link>
 							<Link
 								href='/admin/blogs/new'
-								className='px-4 py-2 rounded-lg bg-secondary text-secondary-foreground text-sm font-medium hover:opacity-90 transition-all hover:scale-105 active:scale-95'>
+								className='px-4 py-2 rounded-lg bg-secondary border border-default text-secondary-foreground text-sm font-medium hover:opacity-90 transition-all hover:scale-105 active:scale-95'>
 								+ New Blog
 							</Link>
 						</div>
